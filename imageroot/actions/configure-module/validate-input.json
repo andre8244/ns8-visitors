@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "configure-module input",
+    "$id": "http://schema.nethserver.org/visitors/configure-module-input.json",
+    "description": "Configure visitors",
+    "examples": [
+        {
+            "host": "visitors.example.org",
+            "http2https": true,
+            "lets_encrypt": false,
+            "ldap_domain": "ad.example.org",
+            "admin_group": "visitors-admin",
+            "ip_allowlist": [
+                "192.168.1.0/24"
+            ]
+        }
+    ],
+    "type": "object",
+    "required": [
+        "host",
+        "ldap_domain",
+        "admin_group"
+    ],
+    "properties": {
+        "host": {
+            "type": "string",
+            "format": "hostname",
+            "pattern": "\\.",
+            "description": "Host name of the web application, like 'visitors.example.org'"
+        },
+        "http2https": {
+            "type": "boolean",
+            "default": true,
+            "description": "Redirect all the HTTP requests to HTTPS"
+        },
+        "lets_encrypt": {
+            "type": "boolean",
+            "default": false,
+            "description": "Request a valid Let's Encrypt certificate"
+        },
+        "ldap_domain": {
+            "type": "string",
+            "minLength": 1,
+            "description": "User domain used to authenticate admins"
+        },
+        "admin_group": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_.-]+$",
+            "description": "Members of this LDAP group get the admin view"
+        },
+        "ip_allowlist": {
+            "type": "array",
+            "default": [],
+            "description": "IP addresses or CIDR networks allowed to reach the web application. Empty means no restriction",
+            "items": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F:.]+(/[0-9]{1,3})?$"
+            }
+        }
+    }
+}

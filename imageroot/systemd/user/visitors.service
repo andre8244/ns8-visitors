@@ -1,0 +1,39 @@
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+#
+# This systemd unit starts the visitors web application using Podman.
+# Most parts of this file come from podman-generate-systemd.
+#
+[Unit]
+Description=visitors web application
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+EnvironmentFile=%E/state/environment
+WorkingDirectory=%E/state
+Restart=always
+ExecStartPre=/bin/rm -f %t/visitors.pid %t/visitors.ctr-id
+ExecStartPre=runagent discover-ldap
+ExecStart=/usr/bin/podman run \
+    --detach \
+    --conmon-pidfile=%t/visitors.pid \
+    --cidfile=%t/visitors.ctr-id \
+    --cgroups=no-conmon \
+    --replace --name=%N \
+    --publish=127.0.0.1:${TCP_PORT}:3000 \
+    --volume=visitors-data:/data:Z \
+    --env-file=discovery_ldap.env \
+    --env-file=passwords.env \
+    --env=NUXT_BASE_URL=https://${TRAEFIK_HOST} \
+    --env=NUXT_ADMIN_GROUP=${ADMIN_GROUP} \
+    ${VISITORS_APP_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/visitors.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/visitors.ctr-id
+PIDFile=%t/visitors.pid
+Type=forking
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# Runs before each backup, with state/ as working directory: write a
+# consistent copy of the SQLite database, instead of backing up the live
+# file while the application writes it.
+
+set -e
+
+dump=/tmp/visitors-dump.sqlite
+
+if podman container exists visitors && [[ "$(podman inspect -f '{{.State.Running}}' visitors)" == "true" ]]; then
+    podman exec visitors node /app/server/dump-db.mjs /data/visitors.sqlite "${dump}"
+    podman cp "visitors:${dump}" visitors-dump.sqlite
+    podman exec visitors rm -f "${dump}"
+else
+    # root inside the container maps to the module user, owner of state/
+    podman run --rm --user=root --volume=visitors-data:/data:Z --volume=.:/dump:z \
+        "${VISITORS_APP_IMAGE}" node /app/server/dump-db.mjs /data/visitors.sqlite /dump/visitors-dump.sqlite
+fi

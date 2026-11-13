@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import os
+import sys
+import agent
+import agent.tasks
+
+request = json.load(sys.stdin)
+
+# Since the "instance" attribute starts with MODULE_ID, the route is
+# removed automatically with the module.
+response = agent.tasks.run(
+    agent_id=agent.resolve_agent_id('traefik@node'),
+    action='set-route',
+    data={
+        'instance': os.environ['MODULE_ID'],
+        'url': 'http://127.0.0.1:' + os.environ["TCP_PORT"],
+        'host': request["host"],
+        'http2https': request.get("http2https", True),
+        'lets_encrypt': request.get("lets_encrypt", False),
+        # Restrict access to the office networks
+        'ip_allowlist': request.get("ip_allowlist", []),
+    },
+)
+
+agent.assert_exp(response['exit_code'] == 0)

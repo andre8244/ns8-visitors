@@ -1,0 +1,30 @@
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+FROM docker.io/library/node:26.13.0-alpine3.24 AS build
+WORKDIR /src
+# pnpm switches itself to the version pinned in package.json "packageManager"
+RUN npm install -g pnpm
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
+
+FROM docker.io/library/node:26.13.0-alpine3.24
+WORKDIR /app
+COPY --from=build /src/.output ./
+COPY --from=build /src/server/database/migrations ./migrations
+# Next to server/node_modules, so the native better-sqlite3 module resolves
+COPY --from=build /src/scripts/dump-db.mjs ./server/dump-db.mjs
+ENV NODE_ENV=production \
+    PORT=3000 \
+    NUXT_DATABASE_PATH=/data/visitors.sqlite \
+    NUXT_MIGRATIONS_PATH=/app/migrations
+# A new named volume copies this ownership, so the node user can write it
+RUN mkdir /data && chown node:node /data
+VOLUME /data
+EXPOSE 3000
+USER node
+CMD ["node", "server/index.mjs"]

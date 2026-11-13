@@ -1,0 +1,28 @@
+{
+  "app": {
+    "title": "Visitor register"
+  },
+  "common": {
+    "sign_out": "Sign out",
+    "show_password": "Show password",
+    "hide_password": "Hide password"
+  },
+  "login": {
+    "title": "Sign in",
+    "username": "Username",
+    "password": "Password",
+    "sign_in": "Sign in",
+    "enter_username": "Enter your username",
+    "enter_password": "Enter your password",
+    "cannot_sign_in": "Cannot sign in",
+    "wrong_credentials": "Incorrect username or password.",
+    "not_admin": "You don't have permission to access the visitor register.",
+    "ldap_unavailable": "Cannot reach the authentication server. Try again later.",
+    "network_error": "Network error. Check your connection and reload the page.",
+    "generic_error": "Something went wrong."
+  },
+  "theme": {
+    "switch_to_light": "Switch to light theme",
+    "switch_to_dark": "Switch to dark theme"
+  }
+}

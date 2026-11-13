@@ -1,0 +1,28 @@
+{
+  "app": {
+    "title": "Registro visitatori"
+  },
+  "common": {
+    "sign_out": "Esci",
+    "show_password": "Mostra password",
+    "hide_password": "Nascondi password"
+  },
+  "login": {
+    "title": "Accedi",
+    "username": "Nome utente",
+    "password": "Password",
+    "sign_in": "Accedi",
+    "enter_username": "Inserisci il nome utente",
+    "enter_password": "Inserisci la password",
+    "cannot_sign_in": "Impossibile accedere",
+    "wrong_credentials": "Nome utente o password non corretti.",
+    "not_admin": "Non hai i permessi per accedere al registro visitatori.",
+    "ldap_unavailable": "Impossibile raggiungere il server di autenticazione. Riprova più tardi.",
+    "network_error": "Errore di rete. Controlla la connessione e ricarica la pagina.",
+    "generic_error": "Si è verificato un errore."
+  },
+  "theme": {
+    "switch_to_light": "Passa al tema chiaro",
+    "switch_to_dark": "Passa al tema scuro"
+  }
+}

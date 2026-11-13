@@ -1,0 +1,5 @@
+allowBuilds:
+  # The package ships prebuilt binaries (prebuilds/): its implicit
+  # node-gyp step only needs python and compilers, missing in the image
+  better-sqlite3: false
+  esbuild: true

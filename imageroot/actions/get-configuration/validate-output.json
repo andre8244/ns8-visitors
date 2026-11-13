@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "get-configuration output",
+    "$id": "http://schema.nethserver.org/visitors/get-configuration-output.json",
+    "description": "Get visitors configuration",
+    "examples": [
+        {
+            "host": "visitors.example.org",
+            "http2https": true,
+            "lets_encrypt": false,
+            "ldap_domain": "ad.example.org",
+            "ldap_domain_list": [
+                "ad.example.org"
+            ],
+            "admin_group": "visitors-admin",
+            "ip_allowlist": [
+                "192.168.1.0/24"
+            ]
+        }
+    ],
+    "type": "object",
+    "required": [
+        "host",
+        "http2https",
+        "lets_encrypt",
+        "ldap_domain",
+        "ldap_domain_list",
+        "admin_group",
+        "ip_allowlist"
+    ],
+    "properties": {
+        "host": {
+            "type": "string"
+        },
+        "http2https": {
+            "type": "boolean"
+        },
+        "lets_encrypt": {
+            "type": "boolean"
+        },
+        "ldap_domain": {
+            "type": "string"
+        },
+        "ldap_domain_list": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "admin_group": {
+            "type": "string"
+        },
+        "ip_allowlist": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "visitors",
+  "description": {
+    "en": "Visitor register: check-in with signature on a tablet, events with guest lists"
+  },
+  "categories": [],
+  "authors": [
+    {
+      "name": "Nethesis",
+      "email": "info@nethesis.it"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/NethServer/ns8-visitors",
+    "bug_url": "https://github.com/NethServer/dev",
+    "code_url": "https://github.com/NethServer/ns8-visitors"
+  },
+  "source": "ghcr.io/nethserver/visitors"
+}

@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+
+request = json.load(sys.stdin)
+
+# Bind the module to the user domain, to read its LDAP settings
+agent.bind_user_domains([request["ldap_domain"]])
+
+agent.set_env("LDAP_DOMAIN", request["ldap_domain"])
+agent.set_env("ADMIN_GROUP", request["admin_group"])
+agent.set_env("TRAEFIK_HOST", request["host"])
+agent.set_env("TRAEFIK_HTTP2HTTPS", request.get("http2https", True))
+agent.set_env("TRAEFIK_LETS_ENCRYPT", request.get("lets_encrypt", False))
+agent.set_env("IP_ALLOWLIST", ",".join(request.get("ip_allowlist", [])))

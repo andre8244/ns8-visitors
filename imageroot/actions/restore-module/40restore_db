@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# Copy the database dump, restored by restic into state/, inside the
+# data volume. The node user owns /data in a new volume (see Containerfile).
+
+set -e
+exec 1>&2
+
+if [[ ! -f visitors-dump.sqlite ]]; then
+    echo "No database dump found, the application starts with an empty database"
+    exit 0
+fi
+
+podman run --rm --user=node \
+    --volume=visitors-data:/data:Z \
+    --volume=./visitors-dump.sqlite:/dump.sqlite:z,ro \
+    "${VISITORS_APP_IMAGE}" cp /dump.sqlite /data/visitors.sqlite
+
+rm -f visitors-dump.sqlite

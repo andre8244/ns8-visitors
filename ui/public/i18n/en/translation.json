@@ -1,0 +1,70 @@
+{
+    "common": {
+        "required": "Required",
+        "work_in_progress": "Work in progress",
+        "processing": "Processing..."
+    },
+    "status": {
+        "title": "Status",
+        "app_instance": "Application instance",
+        "services": "Service | Services",
+        "app_images": "Application image | Application images",
+        "app_volumes": "Application volume | Application volumes",
+        "installation_node": "Installation node",
+        "node": "Node",
+        "name": "Name",
+        "size": "Size",
+        "created": "Created",
+        "mount": "Mount",
+        "no_services": "No services",
+        "no_images": "No images",
+        "no_volumes": "No volumes"
+    },
+    "settings": {
+        "title": "Settings",
+        "configure_instance": "Configure {instance}",
+        "save": "Save",
+        "host": "Host name",
+        "ldap_domain": "User domain",
+        "choose_ldap_domain": "Choose the user domain",
+        "admin_group": "Admin group",
+        "admin_group_helper": "Members of this group get the admin view of the visitors app",
+        "ip_allowlist": "Allowed networks",
+        "ip_allowlist_helper": "IP addresses or networks in CIDR notation, one per line. Leave empty to allow any client",
+        "lets_encrypt": "Request Let's Encrypt certificate",
+        "http2https": "Force HTTPS",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "format": "Invalid format",
+        "pattern": "Invalid format",
+        "required": "Required"
+    },
+    "about": {
+        "title": "About"
+    },
+    "task": {
+        "cannot_create_task": "Cannot create task {action}"
+    },
+    "action": {
+        "get-status": "Get status",
+        "get-configuration": "Get configuration",
+        "configure-module": "Configure module",
+        "get-module-info": "Get module info",
+        "get-name": "Get name",
+        "list-backup-repositories": "List backup repositories",
+        "list-backups": "List backups",
+        "list-installed-modules": "List installed modules"
+    },
+    "error": {
+        "error": "Error",
+        "generic_error": "Something went wrong",
+        "validation_error": "Validation error",
+        "network_error": "Network error",
+        "network_timeout": "Network timeout",
+        "401": "Invalid authentication",
+        "403": "Operation not authorized",
+        "404": "Resource not found",
+        "cannot_retrieve_module_info": "Cannot retrieve module info",
+        "cannot_retrieve_installed_modules": "Cannot retrieve installed modules"
+    }
+}

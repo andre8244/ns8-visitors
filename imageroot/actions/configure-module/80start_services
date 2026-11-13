@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2026 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+# If the control reaches this step, the service can be enabled and started
+
+exec 1>&2
+
+systemctl --user enable visitors.service
+# Restart to apply the new configuration, also when already running
+systemctl --user restart visitors.service
