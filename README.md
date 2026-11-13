@@ -82,6 +82,9 @@ version pinned in the `packageManager` field of `package.json`.
     pnpm install
     pnpm dev
 
+Run the unit tests with `pnpm test` and the type check with `pnpm
+typecheck`.
+
 After changing `app/server/database/schema.ts`, generate a migration with
 `pnpm db:generate`. Migrations run when the application starts.
 
