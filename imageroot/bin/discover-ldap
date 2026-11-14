@@ -29,8 +29,12 @@ except Exception:
         'bind_password': 'invalid',
     }
 
+# The Ldapproxy listens on the node loopback: the container reaches it
+# through the accountprovider name (see the systemd unit)
+ldap_host = 'accountprovider' if odom['host'] in ('127.0.0.1', 'localhost') else odom['host']
+
 with agent.safe_open("discovery_ldap.env", "w") as denv:
-    print(f"NUXT_LDAP_HOST={odom['host']}", file=denv)
+    print(f"NUXT_LDAP_HOST={ldap_host}", file=denv)
     print(f"NUXT_LDAP_PORT={odom['port']}", file=denv)
     print(f"NUXT_LDAP_SCHEMA={odom['schema']}", file=denv)
     print(f"NUXT_LDAP_BASE_DN={odom['base_dn']}", file=denv)

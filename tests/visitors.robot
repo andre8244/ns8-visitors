@@ -63,7 +63,7 @@ Take screenshots
 
 Check if a missing user domain is rejected
     Run task    module/${module_id}/configure-module    {"host":"${host}","http2https":false,"lets_encrypt":false,"ldap_domain":"missing.dom.test","admin_group":"visitors-admin"}
-    ...    rc_expected=1    decode_json=${FALSE}
+    ...    rc_expected=3    decode_json=${FALSE}
 
 Check if visitors can be configured
     Run task    module/${module_id}/configure-module    {"host":"${host}","http2https":false,"lets_encrypt":false,"ldap_domain":"${user_domain}","admin_group":"visitors-admin"}

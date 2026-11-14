@@ -24,10 +24,11 @@ ExecStart=/usr/bin/podman run \
     --cgroups=no-conmon \
     --replace --name=%N \
     --publish=127.0.0.1:${TCP_PORT}:3000 \
+    --network=slirp4netns:allow_host_loopback=true \
+    --add-host=accountprovider:10.0.2.2 \
     --volume=visitors-data:/data:Z \
     --env-file=discovery_ldap.env \
     --env-file=passwords.env \
-    --env=NUXT_BASE_URL=https://${TRAEFIK_HOST} \
     --env=NUXT_ADMIN_GROUP=${ADMIN_GROUP} \
     ${VISITORS_APP_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/visitors.ctr-id -t 10
