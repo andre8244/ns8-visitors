@@ -24,20 +24,22 @@
         "title": "Settings",
         "configure_instance": "Configure {instance}",
         "save": "Save",
-        "host": "Host name",
+        "host": "Hostname",
         "ldap_domain": "User domain",
         "choose_ldap_domain": "Choose the user domain",
         "admin_group": "Admin group",
-        "admin_group_helper": "Members of this group get the admin view of the visitors app",
+        "admin_group_helper": "Members of this LDAP group can sign in to the visitor register and manage it.",
         "ip_allowlist": "Allowed networks",
-        "ip_allowlist_helper": "IP addresses or networks in CIDR notation, one per line. Leave empty to allow any client",
+        "ip_allowlist_helper": "IP addresses or networks in CIDR notation, one per line. Leave it empty to allow any client.",
         "lets_encrypt": "Request Let's Encrypt certificate",
         "http2https": "Force HTTPS",
         "enabled": "Enabled",
         "disabled": "Disabled",
         "format": "Invalid format",
         "pattern": "Invalid format",
-        "required": "Required"
+        "required": "Required",
+        "host_placeholder": "e.g. visitors.example.org",
+        "ldap_domain_not_found": "Choose an existing user domain"
     },
     "about": {
         "title": "About"

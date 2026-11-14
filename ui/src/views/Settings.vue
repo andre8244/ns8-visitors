@@ -23,14 +23,14 @@
       <cv-column>
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.host')"
-              placeholder="visitors.example.org"
+              :placeholder="$t('settings.host_placeholder')"
               v-model.trim="host"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="$t(error.host)"
               ref="host"
-            ></cv-text-input>
+            ></NsTextInput>
             <NsComboBox
               v-model="ldap_domain"
               :autoFilter="true"
@@ -43,14 +43,14 @@
               :disabled="loading.getConfiguration || loading.configureModule"
               ref="ldap_domain"
             />
-            <cv-text-input
+            <NsTextInput
               :label="$t('settings.admin_group')"
               :helper-text="$t('settings.admin_group_helper')"
               v-model.trim="admin_group"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="$t(error.admin_group)"
               ref="admin_group"
-            ></cv-text-input>
+            ></NsTextInput>
             <cv-text-area
               :label="$t('settings.ip_allowlist')"
               :helper-text="$t('settings.ip_allowlist_helper')"

@@ -50,7 +50,8 @@ Let's assume that the visitors instance is named `visitors1`.
 
 Launch `configure-module`, by setting the following parameters:
 - `host`: virtual host name of the web application
-- `ldap_domain`: user domain used to authenticate admins
+- `ldap_domain`: user domain used to authenticate admins; it must exist in
+  the cluster
 - `admin_group`: members of this LDAP group get the admin view
 - `ip_allowlist`: optional list of IP addresses or CIDR networks allowed
   to reach the web application; empty means no restriction

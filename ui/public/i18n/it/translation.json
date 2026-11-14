@@ -24,7 +24,22 @@
         "save": "Salva",
         "title": "Impostazioni",
         "configure_instance": "Configura {instance}",
-        "test_field": "Campo di test"
+        "host": "Nome host",
+        "host_placeholder": "es. visitatori.example.org",
+        "ldap_domain": "Dominio utenti",
+        "choose_ldap_domain": "Scegli il dominio utenti",
+        "ldap_domain_not_found": "Scegli un dominio utenti esistente",
+        "admin_group": "Gruppo degli amministratori",
+        "admin_group_helper": "I membri di questo gruppo LDAP possono accedere al registro visitatori e gestirlo.",
+        "ip_allowlist": "Reti consentite",
+        "ip_allowlist_helper": "Indirizzi IP o reti in notazione CIDR, uno per riga. Lascia vuoto per consentire qualsiasi client.",
+        "lets_encrypt": "Richiedi certificato Let's Encrypt",
+        "http2https": "Forza HTTPS",
+        "enabled": "Abilitato",
+        "disabled": "Disabilitato",
+        "format": "Formato non valido",
+        "pattern": "Formato non valido",
+        "required": "Obbligatorio"
     },
     "error": {
         "error": "Errore",

@@ -6,10 +6,20 @@
 #
 
 import json
+import os
 import sys
 import agent
+from agent.ldapproxy import Ldapproxy
 
 request = json.load(sys.stdin)
+
+# A new user domain must exist: the admins sign in with its accounts.
+# The current one is not checked: during a restore it can still be missing
+changed = request["ldap_domain"] != os.getenv("LDAP_DOMAIN")
+if changed and request["ldap_domain"] not in Ldapproxy().get_domains_list():
+    agent.set_status('validation-failed')
+    json.dump([{'field': 'ldap_domain', 'parameter': 'ldap_domain', 'value': request["ldap_domain"], 'error': 'ldap_domain_not_found'}], fp=sys.stdout)
+    sys.exit(3)
 
 # Bind the module to the user domain, to read its LDAP settings
 agent.bind_user_domains([request["ldap_domain"]])
