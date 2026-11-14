@@ -30,7 +30,7 @@ watch(
       <p class="text-tertiary-neutral mb-6 text-sm">
         {{ t('notice.published_by', { date: formatDateTime(version.publishedAt), name: version.publishedBy }) }}
       </p>
-      <NoticeText :markdown="version.bodyMd" />
+      <NoticeText :markdown="version.bodyMd" :heading-level="4" />
     </template>
   </NeSideDrawer>
 </template>

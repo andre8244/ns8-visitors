@@ -82,7 +82,7 @@ function onPublished() {
         <p class="text-tertiary-neutral mb-6 text-sm">
           {{ t('notice.published_by', { date: formatDateTime(current.publishedAt), name: current.publishedBy }) }}
         </p>
-        <NoticeText :markdown="current.bodyMd" />
+        <NoticeText :markdown="current.bodyMd" :heading-level="4" />
       </NeCard>
       <NeHeading tag="h2" class="mb-4">{{ t('notice.history') }}</NeHeading>
       <NeTable :aria-label="t('notice.history')" card-breakpoint="md">

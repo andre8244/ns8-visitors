@@ -1,11 +1,22 @@
 <script setup lang="ts">
 import MarkdownIt from 'markdown-it'
 
-const props = defineProps<{ markdown: string }>()
+// headingLevel: the HTML level of a top heading (#) of the text, so its
+// headings follow the ones of the page
+const props = withDefaults(defineProps<{ markdown: string; headingLevel?: number }>(), { headingLevel: 3 })
 
 // html: false escapes any HTML in the text, so v-html shows only the
 // elements generated from Markdown
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true })
+
+md.core.ruler.push('shift_headings', (state) => {
+  for (const token of state.tokens) {
+    if (token.type === 'heading_open' || token.type === 'heading_close') {
+      const level = Math.min(Number(token.tag.slice(1)) + props.headingLevel - 1, 6)
+      token.tag = `h${level}`
+    }
+  }
+})
 
 const html = computed(() => md.render(props.markdown))
 </script>
@@ -18,16 +29,17 @@ const html = computed(() => md.render(props.markdown))
 </template>
 
 <style scoped>
-.notice-text :deep(h1),
-.notice-text :deep(h2),
-.notice-text :deep(h3) {
+.notice-text :deep(h3),
+.notice-text :deep(h4),
+.notice-text :deep(h5),
+.notice-text :deep(h6) {
   font-weight: 500;
   margin: 1.5rem 0 0.5rem;
 }
-.notice-text :deep(h1) {
+.notice-text :deep(h3) {
   font-size: 1.25rem;
 }
-.notice-text :deep(h2) {
+.notice-text :deep(h4) {
   font-size: 1.125rem;
 }
 .notice-text :deep(p),

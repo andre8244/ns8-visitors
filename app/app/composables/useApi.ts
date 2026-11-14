@@ -12,14 +12,10 @@ export function useApi() {
   const { t } = useI18n()
   const { clear } = useUserSession()
 
-  const api = $fetch.create({
-    async onResponseError({ response }) {
-      if (response.status === 401) {
-        await clear()
-        await navigateTo('/login')
-      }
-    }
-  })
+  const api = createApiClient(async () => {
+    await clear()
+    await navigateTo('/login')
+  }, [401])
 
   // Description of an error that the page does not handle by itself
   function errorText(error: unknown) {

@@ -13,6 +13,17 @@ used on a tablet at the office entrance.
 Data older than the retention period (12 months by default) is deleted
 automatically. Every admin action is recorded in an audit log.
 
+## Tablet setup
+
+1. In the admin pages, open Tablets and add the tablet: a pairing code
+   appears, valid for 10 minutes.
+2. On the tablet, open `https://<host>/kiosk/pair` and enter the code.
+3. Lock the browser on the page with the kiosk mode of the tablet
+   (Guided Access on iPad, screen pinning on Android).
+
+The tablet stays paired until an admin revokes it. After a minute without
+touches it goes back to its home page.
+
 ## Repository layout
 
 - `app/`: the web application, built with Nuxt, pnpm, Drizzle ORM on

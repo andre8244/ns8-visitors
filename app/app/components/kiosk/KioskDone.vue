@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import { NeButton, NeHeading, NeRoundedIcon } from '@nethesis/vue-components'
+import { useTimeoutFn } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+
+// Confirmation after a check-in or a check-out, then back to the home page
+const RETURN_MS = 6000
+
+defineProps<{ title: string; description: string }>()
+const { t } = useI18n()
+
+function goHome() {
+  navigateTo('/kiosk')
+}
+useTimeoutFn(goHome, RETURN_MS)
+</script>
+
+<template>
+  <div class="bg-elevation-0 flex flex-col items-center rounded-md px-6 py-12 text-center shadow-sm" role="status">
+    <NeRoundedIcon kind="success" class="mb-6" />
+    <NeHeading tag="h1" class="mb-4">{{ title }}</NeHeading>
+    <p class="mb-8 max-w-md text-lg">{{ description }}</p>
+    <NeButton kind="primary" size="lg" @click="goHome">{{ t('kiosk.back_to_start') }}</NeButton>
+  </div>
+</template>
