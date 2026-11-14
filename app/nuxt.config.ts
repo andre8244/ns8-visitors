@@ -6,6 +6,8 @@ export default defineNuxtConfig({
   // issues with tippy/Headless UI components
   ssr: false,
   modules: ['nuxt-auth-utils'],
+  // Components are named after their file, whatever their folder
+  components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()]
@@ -15,6 +17,12 @@ export default defineNuxtConfig({
     databasePath: './.data/visitors.sqlite',
     migrationsPath: './server/database/migrations',
     adminGroup: 'visitors-admin',
+    // The cookie lasts one year, for the paired tablets; admin sessions
+    // expire earlier, see requireAdmin()
+    session: {
+      maxAge: 365 * 24 * 60 * 60,
+      cookie: { sameSite: 'strict' }
+    },
     ldap: {
       host: '127.0.0.1',
       port: 389,

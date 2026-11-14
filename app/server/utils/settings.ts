@@ -10,19 +10,19 @@ export const settingsSchema = z.object({
   kioskTheme: z.enum(['light', 'dark'])
 })
 
-export type Settings = z.infer<typeof settingsSchema>
+type SettingsValues = z.infer<typeof settingsSchema>
 
-export const defaultSettings: Settings = {
+export const defaultSettings: SettingsValues = {
   retentionMonths: 12,
   autoCheckoutTime: '20:00',
   kioskTheme: 'light'
 }
 
-export function getSettings(): Settings {
+export function getSettings(): SettingsValues {
   const rows = useDb().select().from(schema.setting).all()
   const settings = { ...defaultSettings }
   for (const row of rows) {
-    const key = row.key as keyof Settings
+    const key = row.key as keyof SettingsValues
     if (!(key in settingsSchema.shape)) {
       continue
     }
@@ -35,7 +35,7 @@ export function getSettings(): Settings {
   return settings
 }
 
-export function updateSettings(session: UserSession, patch: Partial<Settings>) {
+export function updateSettings(session: UserSession, patch: Partial<SettingsValues>) {
   const values = settingsSchema.partial().parse(patch)
   const db = useDb()
   db.transaction((tx) => {

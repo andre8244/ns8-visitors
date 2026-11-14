@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
 
   await replaceUserSession(event, {
     user: { kind: 'admin', name: ldapUser.name, username },
-    via: 'ldap'
+    via: 'ldap',
+    signedInAt: Date.now()
   })
   return { kind: 'admin' }
 })

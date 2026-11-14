@@ -15,17 +15,23 @@
   --elevation-0: var(--color-white);
   --elevation-1: var(--color-gray-50);
   --text-primary-neutral: var(--color-gray-900);
+  --text-secondary-neutral: var(--color-gray-700);
+  --text-tertiary-neutral: var(--color-gray-600);
   --layout-divider: var(--color-gray-200);
 }
 .dark {
   --elevation-0: var(--color-gray-950);
   --elevation-1: var(--color-gray-900);
   --text-primary-neutral: var(--color-gray-50);
+  --text-secondary-neutral: var(--color-gray-200);
+  --text-tertiary-neutral: var(--color-gray-400);
   --layout-divider: var(--color-gray-700);
 }
 @theme inline {
   --color-elevation-0: var(--elevation-0);
   --color-elevation-1: var(--elevation-1);
   --color-primary-neutral: var(--text-primary-neutral);
+  --color-secondary-neutral: var(--text-secondary-neutral);
+  --color-tertiary-neutral: var(--text-tertiary-neutral);
   --color-layout-divider: var(--layout-divider);
 }

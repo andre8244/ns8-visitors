@@ -8,6 +8,8 @@ declare module '#auth-utils' {
 
   interface UserSession {
     via: 'ldap' | 'kiosk'
+    // Unix time in ms of the sign-in
+    signedInAt: number
   }
 }
 
