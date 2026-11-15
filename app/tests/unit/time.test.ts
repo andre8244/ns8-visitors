@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { autoCheckOutAt, localDate, monthsBefore } from '../server/utils/time'
-import { normalizeName, searchNameOf } from '../shared/utils/names'
+import { autoCheckOutAt, localDate, monthsBefore } from '../../server/utils/time'
+import { normalizeName, searchNameOf } from '../../shared/utils/names'
 
 describe('autoCheckOutAt', () => {
   it('closes at the closing time of the check-in day', () => {

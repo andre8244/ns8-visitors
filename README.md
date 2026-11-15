@@ -94,8 +94,17 @@ version pinned in the `packageManager` field of `package.json`.
     pnpm install
     pnpm dev
 
-Run the unit tests with `pnpm test` and the type check with `pnpm
-typecheck`.
+Checks, all run by the "Test app" GitHub workflow:
+
+    pnpm typecheck
+    pnpm test             # unit tests
+    pnpm build
+    pnpm test:api         # API tests, on the built server
+
+The API tests start `.output/server/index.mjs` on a temporary database,
+sign in as an admin with a session cookie sealed by the test, and pair
+tablets through the API. LDAP is not involved: the module tests on NS8
+cover the LDAP login.
 
 After changing `app/server/database/schema.ts`, generate a migration with
 `pnpm db:generate`. Migrations run when the application starts.

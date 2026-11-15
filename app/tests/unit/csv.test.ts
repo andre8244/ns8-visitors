@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { decodeCsvBytes, parseCsv, parseGuestsCsv, toCsv } from '../shared/utils/csv'
+import { decodeCsvBytes, parseCsv, parseGuestsCsv, toCsv } from '../../shared/utils/csv'
 
 describe('parseCsv', () => {
   it('reads semicolons, quotes and line breaks in fields', () => {

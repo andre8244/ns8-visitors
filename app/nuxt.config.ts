@@ -45,6 +45,10 @@ export default defineNuxtConfig({
   },
   nitro: {
     // better-sqlite3 is a native module: keep it outside the bundle
-    externals: { external: ['better-sqlite3'] }
+    externals: { external: ['better-sqlite3'] },
+    // The tests run on the server code: type-check them with it
+    typescript: {
+      tsConfig: { include: ['../tests/**/*', '../vitest.config.ts'] }
+    }
   }
 })

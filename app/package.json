@@ -13,7 +13,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "db:generate": "drizzle-kit generate",
-    "test": "TZ=Europe/Rome vitest run",
+    "test": "TZ=Europe/Rome vitest run --project unit",
+    "test:api": "TZ=Europe/Rome vitest run --project api",
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "@types/better-sqlite3": "^9.6.0",
     "@types/markdown-it": "^14.2.0",
     "drizzle-kit": "^0.31.11",
+    "iron-webcrypto": "^1.2.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vitest": "^5.1.0",

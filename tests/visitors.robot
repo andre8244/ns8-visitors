@@ -9,6 +9,7 @@ ${module_id}    ${EMPTY}
 ${user_domain}    ldap.dom.test
 ${user_password}    Nethesis,1234
 ${host}    visitors.dom.test
+${cookies}    /tmp/visitors-test.cookies
 
 *** Keywords ***
 Login to cluster-admin
@@ -25,7 +26,28 @@ Sign in to the app
     Should Be Equal As Strings    ${status}    ${expected_status}
 
 The login page answers
-    ${rc} =    Execute Command    curl -f -H 'Host: ${host}' http://127.0.0.1/login
+    [Arguments]    ${expected_status}=200
+    ${status} =    Execute Command    curl -s -o /dev/null -w '\%{http_code}' -H 'Host: ${host}' http://127.0.0.1/login
+    Should Be Equal As Strings    ${status}    ${expected_status}
+
+Configure the module
+    [Arguments]    ${ip_allowlist}=[]
+    Run task    module/${module_id}/configure-module    {"host":"${host}","http2https":false,"lets_encrypt":false,"ldap_domain":"${user_domain}","admin_group":"visitors-admin","ip_allowlist":${ip_allowlist}}
+    ...    decode_json=${FALSE}
+
+# The session cookie is Secure: these calls use HTTPS
+Call the admin API
+    [Arguments]    ${method}    ${path}    ${data}={}
+    ${output} =    Execute Command    curl -sk -b ${cookies} -c ${cookies} --resolve ${host}:443:127.0.0.1 -X ${method} -H 'Content-Type: application/json' -d '${data}' https://${host}${path}
+    RETURN    ${output}
+
+Sign in as admin
+    ${status} =    Execute Command    curl -sk -o /dev/null -w '\%{http_code}' -c ${cookies} --resolve ${host}:443:127.0.0.1 -H 'Content-Type: application/json' -d '{"username":"reception","password":"${user_password}"}' https://${host}/api/auth/login
+    Should Be Equal As Strings    ${status}    200
+
+Run in the module
+    [Arguments]    ${command}
+    ${rc} =    Execute Command    runagent -m ${module_id} sh -c '${command}'
     ...    return_rc=True  return_stdout=False
     Should Be Equal As Integers    ${rc}  0
 
@@ -66,8 +88,7 @@ Check if a missing user domain is rejected
     ...    rc_expected=3    decode_json=${FALSE}
 
 Check if visitors can be configured
-    Run task    module/${module_id}/configure-module    {"host":"${host}","http2https":false,"lets_encrypt":false,"ldap_domain":"${user_domain}","admin_group":"visitors-admin"}
-    ...    decode_json=${FALSE}
+    Configure the module
 
 Check if visitors works as expected
     # The application needs a few seconds to start after configure-module
@@ -78,6 +99,23 @@ Check if admins can sign in
 
 Check if users outside the admin group cannot sign in
     Sign in to the app    guest    403
+
+Check if the IP allowlist blocks the other networks
+    Configure the module    ["192.0.2.0/24"]
+    Wait Until Keyword Succeeds    60s    3s    The login page answers    403
+    Configure the module    ["127.0.0.1"]
+    Wait Until Keyword Succeeds    60s    3s    The login page answers
+
+Check if the database is backed up and restored
+    Sign in as admin
+    Call the admin API    POST    /api/admin/notice    {"bodyMd":"Robot backup test"}
+    # The backup runs module-dump-state in state/
+    Run in the module    module-dump-state && test -s visitors-dump.sqlite
+    # A restore-module starts with no data volume and the dump in state/
+    Run in the module    systemctl --user stop visitors && podman volume rm visitors-data && "$AGENT_INSTALL_DIR/actions/restore-module/40restore_db" && test ! -e visitors-dump.sqlite && systemctl --user start visitors
+    Wait Until Keyword Succeeds    60s    3s    The login page answers
+    ${notices} =    Call the admin API    GET    /api/admin/notice
+    Should Contain    ${notices}    Robot backup test
 
 Check if visitors is removed correctly
     ${rc} =    Execute Command    remove-module --no-preserve ${module_id}
