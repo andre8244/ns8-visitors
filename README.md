@@ -26,8 +26,8 @@ touches it goes back to its home page.
 
 ## Repository layout
 
-- `app/`: the web application, built with Nuxt, pnpm, Drizzle ORM on
-  SQLite, Tailwind CSS and `@nethesis/vue-components`. See `app/Containerfile`.
+- `webapp/`: the web application, built with Nuxt, pnpm, Drizzle ORM on
+  SQLite, Tailwind CSS and `@nethesis/vue-components`. See `webapp/Containerfile`.
 - `imageroot/`: NS8 module actions, systemd unit and helper scripts.
 - `ui/`: the module settings page shown in the NS8 cluster-admin UI.
 - `build-images.sh`: builds both the module image and the
@@ -81,15 +81,15 @@ copies it back into the `visitors-data` volume.
 
 ## Application development
 
-Requirements: Node.js 26 (see `app/.nvmrc`, e.g. `nvm use` or `fnm use`)
+Requirements: Node.js 26 (see `webapp/.nvmrc`, e.g. `nvm use` or `fnm use`)
 and pnpm. Node.js 26 does not ship Corepack, so install pnpm once with npm:
 
     npm install -g pnpm
 
-Any recent pnpm works: inside `app/` it switches automatically to the
+Any recent pnpm works: inside `webapp/` it switches automatically to the
 version pinned in the `packageManager` field of `package.json`.
 
-    cd app
+    cd webapp
     cp .env.example .env    # adjust LDAP settings
     pnpm install
     pnpm dev
@@ -106,7 +106,7 @@ sign in as an admin with a session cookie sealed by the test, and pair
 tablets through the API. LDAP is not involved: the module tests on NS8
 cover the LDAP login.
 
-After changing `app/server/database/schema.ts`, generate a migration with
+After changing `webapp/server/database/schema.ts`, generate a migration with
 `pnpm db:generate`. Migrations run when the application starts.
 
 ## Uninstall

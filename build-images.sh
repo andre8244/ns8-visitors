@@ -51,9 +51,9 @@ buildah commit "${container}" "${repobase}/${reponame}"
 # Append the image URL to the images array
 images+=("${repobase}/${reponame}")
 
-# Build the web application image, from the Nuxt app sources
+# Build the web application image, from the Nuxt sources in webapp/
 echo "Build the web application image..."
-buildah build --file app/Containerfile --tag "${repobase}/${reponame}-app" app
+buildah build --file webapp/Containerfile --tag "${repobase}/${reponame}-app" webapp
 images+=("${repobase}/${reponame}-app")
 
 #

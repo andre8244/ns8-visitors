@@ -5,11 +5,11 @@ on:
     branches:
       - main
     paths:
-      - "app/**"
+      - "webapp/**"
       - ".github/workflows/test-app.yml"
   pull_request:
     paths:
-      - "app/**"
+      - "webapp/**"
       - ".github/workflows/test-app.yml"
 
 permissions:
@@ -25,7 +25,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./app
+        working-directory: ./webapp
 
     steps:
       - name: Checkout code
@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: "26"
           cache: "pnpm"
-          cache-dependency-path: "app/pnpm-lock.yaml"
+          cache-dependency-path: "webapp/pnpm-lock.yaml"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
