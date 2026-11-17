@@ -9,7 +9,7 @@ defineProps<{ to: string; icon: IconDefinition; title: string; description: stri
 <template>
   <NuxtLink
     :to="to"
-    class="bg-elevation-0 hover:ring-primary-500 focus-visible:ring-primary-500 flex items-center gap-6 rounded-md p-6 shadow-sm ring-1 ring-transparent focus-visible:ring-2 focus-visible:outline-none"
+    class="bg-elevation-0 hover:ring-primary-500 focus-visible:ring-offset-primary-600 flex items-center gap-6 rounded-md p-6 shadow-sm ring-1 ring-transparent focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
   >
     <FontAwesomeIcon :icon="icon" class="text-primary-700 dark:text-primary-500 h-10 w-10 shrink-0" aria-hidden="true" />
     <span>

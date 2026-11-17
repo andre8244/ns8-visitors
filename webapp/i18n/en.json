@@ -282,7 +282,7 @@
     "saved_description": "The new settings apply from now on"
   },
   "kiosk": {
-    "home_title": "Check in or check out",
+    "welcome": "Welcome to Nethesis",
     "visit_title": "Check in as a visitor",
     "visit_description": "You are visiting Nethesis.",
     "event_title": "Check in to an event",

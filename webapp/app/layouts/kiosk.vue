@@ -15,6 +15,10 @@ const route = useRoute()
 useHead({ title: () => t('app.title'), htmlAttrs: { lang: 'it' } })
 
 const atHome = computed(() => route.path === '/kiosk' || route.path === '/kiosk/pair')
+const atStart = computed(() => route.path === '/kiosk')
+// The home page greets the visitor on the color of the brand, in the middle
+// of the screen
+const background = computed(() => (atStart.value ? 'bg-primary-600' : 'bg-elevation-1'))
 
 const { idle, reset } = useIdle(IDLE_MS)
 watch(idle, (isIdle) => {
@@ -26,19 +30,16 @@ watch(idle, (isIdle) => {
 </script>
 
 <template>
-  <div class="bg-elevation-1 text-primary-neutral min-h-screen">
-    <header class="bg-elevation-0 border-layout-divider border-b">
-      <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-        <span class="text-lg font-medium">{{ t('app.title') }}</span>
-        <NeButton v-if="!atHome" kind="tertiary" size="lg" @click="navigateTo('/kiosk')">
-          <template #prefix>
-            <FontAwesomeIcon :icon="faArrowLeft" aria-hidden="true" />
-          </template>
-          {{ t('kiosk.back_to_start') }}
-        </NeButton>
-      </div>
-    </header>
-    <main class="mx-auto max-w-3xl px-6 py-8">
+  <!-- No top bar: the home page greets the visitor, the other pages start
+  with the way back -->
+  <div :class="[background, 'text-primary-neutral min-h-screen']">
+    <main :class="['mx-auto max-w-3xl px-6 py-8', { 'flex min-h-screen flex-col justify-center': atStart }]">
+      <NeButton v-if="!atHome" kind="tertiary" size="lg" class="-ml-3 mb-6" @click="navigateTo('/kiosk')">
+        <template #prefix>
+          <FontAwesomeIcon :icon="faArrowLeft" aria-hidden="true" />
+        </template>
+        {{ t('kiosk.back_to_start') }}
+      </NeButton>
       <slot />
     </main>
   </div>

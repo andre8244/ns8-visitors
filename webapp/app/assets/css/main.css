@@ -50,6 +50,9 @@ html {
 html.dark {
   color-scheme: dark;
 }
+html.kiosk-home {
+  background-color: var(--color-primary-600);
+}
 @theme inline {
   --color-elevation-0: var(--elevation-0);
   --color-elevation-1: var(--elevation-1);
@@ -57,6 +60,38 @@ html.dark {
   --color-secondary-neutral: var(--text-secondary-neutral);
   --color-tertiary-neutral: var(--text-tertiary-neutral);
   --color-layout-divider: var(--layout-divider);
+}
+
+/* Tablet home page: the welcome and the choices fade in rising slightly */
+@theme {
+  --animate-rise: rise 800ms ease-out both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* The choices follow the welcome one after the other */
+@media (prefers-reduced-motion: no-preference) {
+  .rise-children > * {
+    animation: rise 600ms ease-out both;
+  }
+  .rise-children > :nth-child(1) {
+    animation-delay: 200ms;
+  }
+  .rise-children > :nth-child(2) {
+    animation-delay: 300ms;
+  }
+  .rise-children > :nth-child(3) {
+    animation-delay: 400ms;
+  }
 }
 
 /* Fade transition, as in My Nethesis */

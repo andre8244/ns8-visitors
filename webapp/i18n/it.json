@@ -282,7 +282,7 @@
     "saved_description": "Le nuove impostazioni valgono da subito"
   },
   "kiosk": {
-    "home_title": "Registra ingresso o uscita",
+    "welcome": "Benvenuti in Nethesis",
     "visit_title": "Registra ingresso come visitatore",
     "visit_description": "Sei in visita in Nethesis.",
     "event_title": "Registra ingresso a un evento",

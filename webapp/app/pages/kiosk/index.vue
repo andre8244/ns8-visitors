@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeHeading, NeInlineNotification, NeSkeleton } from '@nethesis/vue-components'
+import { NeInlineNotification, NeSkeleton } from '@nethesis/vue-components'
 import { faCalendarCheck, faDoorOpen, faUserCheck } from '@fortawesome/free-solid-svg-icons'
 import { useIntervalFn } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
@@ -27,7 +27,8 @@ useIntervalFn(load, RELOAD_MS)
 
 <template>
   <div>
-    <NeHeading tag="h1" class="mb-8">{{ t('kiosk.home_title') }}</NeHeading>
+    <!-- Larger than the h1 of NeHeading: the greeting of the entrance -->
+    <h1 class="motion-safe:animate-rise mt-4 mb-10 text-center text-4xl font-medium text-white sm:text-5xl dark:text-gray-950">{{ t('kiosk.welcome') }}</h1>
     <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_load')" :description="error" class="mb-6" />
     <NeSkeleton v-if="!config && !error" :lines="6" />
     <template v-else-if="config">
@@ -38,7 +39,7 @@ useIntervalFn(load, RELOAD_MS)
         :description="t('kiosk.not_available_description')"
         class="mb-6"
       />
-      <div class="space-y-4">
+      <div class="rise-children space-y-4">
         <template v-if="config.notice">
           <KioskChoice to="/kiosk/visit" :icon="faUserCheck" :title="t('kiosk.visit_title')" :description="t('kiosk.visit_description')" />
           <KioskChoice
