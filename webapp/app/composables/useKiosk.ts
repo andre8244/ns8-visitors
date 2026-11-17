@@ -22,6 +22,12 @@ export function useKiosk() {
   async function loadConfig() {
     config.value = await api<KioskConfig>('/api/kiosk/config')
     document.documentElement.classList.toggle('dark', config.value.theme === 'dark')
+    // Read by the script in the page head at the next load
+    try {
+      localStorage.setItem('visitors-kiosk-theme', config.value.theme)
+    } catch {
+      // Storage disabled: the theme applies when the configuration loads
+    }
   }
 
   function errorText(error: unknown) {

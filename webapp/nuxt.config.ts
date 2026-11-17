@@ -9,6 +9,23 @@ export default defineNuxtConfig({
   // Components are named after their file, whatever their folder
   components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/css/main.css'],
+  app: {
+    head: {
+      // Sets the theme before the page shows, with no white flash in the
+      // dark theme. Keys: useAdminTheme() and useKiosk()
+      script: [
+        {
+          tagPosition: 'head',
+          innerHTML: `try {
+  var kiosk = location.pathname.indexOf('/kiosk') === 0
+  var mode = localStorage.getItem(kiosk ? 'visitors-kiosk-theme' : 'visitors-theme')
+  var auto = !kiosk && (!mode || mode === 'auto') && matchMedia('(prefers-color-scheme: dark)').matches
+  if (mode === 'dark' || auto) document.documentElement.classList.add('dark')
+} catch (e) {}`
+        }
+      ]
+    }
+  },
   vite: {
     plugins: [tailwindcss()]
   },

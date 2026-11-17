@@ -27,6 +27,14 @@
   --text-tertiary-neutral: var(--color-gray-400);
   --layout-divider: var(--color-gray-700);
 }
+/* The page color before the application starts */
+html {
+  background-color: var(--elevation-1);
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
 @theme inline {
   --color-elevation-0: var(--elevation-0);
   --color-elevation-1: var(--elevation-1);
