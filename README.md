@@ -104,6 +104,14 @@ data. To try the tablet pages from a tablet in the same network, start
 the application with `pnpm dev --host` and open
 `http://<computer address>:3000/kiosk`.
 
+To try the pages with some data, fill the development database with
+`pnpm dev:seed`: visits of the last three months, some still in the
+office, a course in progress, past and upcoming events, tablets and two
+versions of the privacy notice. Names and companies are made up. The
+script refuses a database that already has visits: to start again, stop
+`pnpm dev`, delete `webapp/.data/visitors.sqlite` and run it again. Pair
+your tablet as usual: the seeded tablets are only listed.
+
 Checks, all run by the "Test app" GitHub workflow:
 
     pnpm typecheck

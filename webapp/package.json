@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "dev:ldap": "sh dev/ldap/start.sh",
+    "dev:seed": "node dev/seed.ts",
     "build": "nuxt build",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
