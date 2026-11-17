@@ -34,7 +34,7 @@ const { t } = useI18n()
       <li
         v-for="result in results"
         :key="result.id"
-        class="bg-elevation-0 flex flex-wrap items-center justify-between gap-4 rounded-md p-4 shadow-sm"
+        class="border-layout-divider flex flex-wrap items-center justify-between gap-4 rounded-md border p-4"
       >
         <div>
           <p class="font-medium">{{ fullName(result) }}</p>

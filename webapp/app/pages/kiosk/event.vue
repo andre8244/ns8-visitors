@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeButton, NeHeading, NeInlineNotification } from '@nethesis/vue-components'
+import { NeButton, NeInlineNotification } from '@nethesis/vue-components'
 import { useI18n } from 'vue-i18n'
 import type { CheckInSubmit } from '~/components/kiosk/CheckInForm.vue'
 import type { NameSearchResult } from '~/components/kiosk/NameSearch.vue'
@@ -58,12 +58,11 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
   <KioskDone
     v-if="doneName"
     :title="t('kiosk.checked_in')"
-    :description="t('kiosk.checked_in_description', { name: doneName })"
+    :description="t('kiosk.checked_in_description')"
   />
-  <div v-else-if="config?.notice">
+  <template v-else-if="config?.notice">
     <!-- 1. the event, when there are more today -->
-    <template v-if="!eventId">
-      <NeHeading tag="h1" class="mb-8">{{ t('kiosk.choose_event') }}</NeHeading>
+    <KioskPage v-if="!eventId" :title="t('kiosk.choose_event')">
       <div class="space-y-4">
         <NeButton
           v-for="event in events"
@@ -76,11 +75,9 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
           {{ event.name }}
         </NeButton>
       </div>
-    </template>
+    </KioskPage>
     <!-- 3a. a guest of the list: signature on the first day, else only the check-in -->
-    <template v-else-if="guest">
-      <NeHeading tag="h1" class="mb-2">{{ fullName(guest) }}</NeHeading>
-      <p class="text-tertiary-neutral mb-8">{{ eventName }}</p>
+    <KioskPage v-else-if="guest" :title="fullName(guest)" :subtitle="eventName">
       <CheckInForm
         v-if="!guest.signed"
         mode="guest"
@@ -89,7 +86,7 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
         :error="error"
         @submit="checkInGuest"
       />
-      <div v-else class="bg-elevation-0 space-y-6 rounded-md p-6 shadow-sm">
+      <div v-else class="space-y-6">
         <p class="text-lg">{{ t('kiosk.already_signed') }}</p>
         <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_check_in')" :description="error" />
         <div class="flex flex-wrap justify-end gap-3">
@@ -99,17 +96,13 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
           </NeButton>
         </div>
       </div>
-    </template>
+    </KioskPage>
     <!-- 3b. not in the list: registers and is added to the event -->
-    <template v-else-if="walkIn">
-      <NeHeading tag="h1" class="mb-2">{{ t('kiosk.walk_in_title') }}</NeHeading>
-      <p class="text-tertiary-neutral mb-8">{{ eventName }}</p>
+    <KioskPage v-else-if="walkIn" :title="t('kiosk.walk_in_title')" :subtitle="eventName">
       <CheckInForm mode="walk-in" :notice="config.notice.bodyMd" :saving="saving" :error="error" @submit="checkInWalkIn" />
-    </template>
+    </KioskPage>
     <!-- 2. search the name in the guest list -->
-    <template v-else>
-      <NeHeading tag="h1" class="mb-2">{{ t('kiosk.event_title') }}</NeHeading>
-      <p class="text-tertiary-neutral mb-8">{{ eventName }}</p>
+    <KioskPage v-else :title="t('kiosk.event_title')" :subtitle="eventName">
       <NeInlineNotification v-if="searchError" kind="error" :title="t('kiosk.cannot_search')" :description="searchError" class="mb-6" />
       <NameSearch
         v-model="query"
@@ -125,6 +118,6 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
           <NeButton kind="tertiary" size="lg" @click="walkIn = true">{{ t('kiosk.register_walk_in') }}</NeButton>
         </div>
       </NameSearch>
-    </template>
-  </div>
+    </KioskPage>
+  </template>
 </template>

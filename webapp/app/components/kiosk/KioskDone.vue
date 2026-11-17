@@ -16,10 +16,10 @@ useTimeoutFn(goHome, RETURN_MS)
 </script>
 
 <template>
-  <div class="bg-elevation-0 flex flex-col items-center rounded-md px-6 py-12 text-center shadow-sm" role="status">
+  <div class="motion-safe:animate-rise bg-elevation-0 flex flex-col items-center rounded-md px-6 py-12 text-center shadow-sm" role="status">
     <NeRoundedIcon kind="success" class="mb-6" />
     <NeHeading tag="h1" class="mb-4">{{ title }}</NeHeading>
-    <p class="mb-8 max-w-md text-lg">{{ description }}</p>
+    <p class="mb-8 max-w-lg text-lg">{{ description }}</p>
     <NeButton kind="primary" size="lg" @click="goHome">{{ t('kiosk.back_to_start') }}</NeButton>
   </div>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NeButton } from '@nethesis/vue-components'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useIdle } from '@vueuse/core'
@@ -15,10 +14,8 @@ const route = useRoute()
 useHead({ title: () => t('app.title'), htmlAttrs: { lang: 'it' } })
 
 const atHome = computed(() => route.path === '/kiosk' || route.path === '/kiosk/pair')
+// The home page greets the visitor in the middle of the screen
 const atStart = computed(() => route.path === '/kiosk')
-// The home page greets the visitor on the color of the brand, in the middle
-// of the screen
-const background = computed(() => (atStart.value ? 'bg-primary-600' : 'bg-elevation-1'))
 
 const { idle, reset } = useIdle(IDLE_MS)
 watch(idle, (isIdle) => {
@@ -30,16 +27,20 @@ watch(idle, (isIdle) => {
 </script>
 
 <template>
-  <!-- No top bar: the home page greets the visitor, the other pages start
-  with the way back -->
-  <div :class="[background, 'text-primary-neutral min-h-screen']">
+  <!-- The tablet has the color of the brand, in both themes, and no top bar:
+  the home page greets the visitor, the other pages start with the way back -->
+  <div class="bg-primary-600 text-primary-neutral min-h-screen">
     <main :class="['mx-auto max-w-3xl px-6 py-8', { 'flex min-h-screen flex-col justify-center': atStart }]">
-      <NeButton v-if="!atHome" kind="tertiary" size="lg" class="-ml-3 mb-6" @click="navigateTo('/kiosk')">
-        <template #prefix>
-          <FontAwesomeIcon :icon="faArrowLeft" aria-hidden="true" />
-        </template>
+      <!-- Custom markup: NeButton has no kind for a colored background -->
+      <button
+        v-if="!atHome"
+        type="button"
+        class="bg-elevation-0 text-primary-700 dark:text-primary-500 focus-visible:ring-offset-primary-600 mb-6 inline-flex items-center gap-2 rounded-md px-4 py-3 font-medium shadow-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
+        @click="navigateTo('/kiosk')"
+      >
+        <FontAwesomeIcon :icon="faArrowLeft" aria-hidden="true" />
         {{ t('kiosk.back_to_start') }}
-      </NeButton>
+      </button>
       <slot />
     </main>
   </div>

@@ -28,7 +28,7 @@ useIntervalFn(load, RELOAD_MS)
 <template>
   <div>
     <!-- Larger than the h1 of NeHeading: the greeting of the entrance -->
-    <h1 class="motion-safe:animate-rise mt-4 mb-10 text-center text-4xl font-medium text-white sm:text-5xl dark:text-gray-950">{{ t('kiosk.welcome') }}</h1>
+    <h1 class="motion-safe:animate-rise mt-4 mb-10 text-center text-4xl font-medium text-white sm:text-5xl">{{ t('kiosk.welcome') }}</h1>
     <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_load')" :description="error" class="mb-6" />
     <NeSkeleton v-if="!config && !error" :lines="6" />
     <template v-else-if="config">

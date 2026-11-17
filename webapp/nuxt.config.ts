@@ -26,8 +26,8 @@ export default defineNuxtConfig({
   var mode = localStorage.getItem(kiosk ? 'visitors-kiosk-theme' : 'visitors-theme')
   var auto = !kiosk && (!mode || mode === 'auto') && matchMedia('(prefers-color-scheme: dark)').matches
   if (mode === 'dark' || auto) document.documentElement.classList.add('dark')
-  // The home page of the tablet has the color of the brand
-  if (location.pathname === '/kiosk' || location.pathname === '/kiosk/') document.documentElement.classList.add('kiosk-home')
+  // The tablet pages have the color of the brand
+  if (kiosk) document.documentElement.classList.add('kiosk')
 } catch (e) {}`
         }
       ]

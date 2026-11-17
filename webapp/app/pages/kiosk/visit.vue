@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NeHeading } from '@nethesis/vue-components'
 import { useI18n } from 'vue-i18n'
 import type { CheckInSubmit } from '~/components/kiosk/CheckInForm.vue'
 
@@ -31,10 +30,9 @@ async function checkIn({ person, signature }: CheckInSubmit) {
   <KioskDone
     v-if="doneName"
     :title="t('kiosk.checked_in')"
-    :description="t('kiosk.checked_in_description', { name: doneName })"
+    :description="t('kiosk.checked_in_description')"
   />
-  <div v-else-if="config?.notice">
-    <NeHeading tag="h1" class="mb-8">{{ t('kiosk.visit_title') }}</NeHeading>
+  <KioskPage v-else-if="config?.notice" :title="t('kiosk.visit_title')">
     <CheckInForm mode="visitor" :notice="config.notice.bodyMd" :saving="saving" :error="error" @submit="checkIn" />
-  </div>
+  </KioskPage>
 </template>

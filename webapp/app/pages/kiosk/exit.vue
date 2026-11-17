@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeButton, NeHeading, NeInlineNotification } from '@nethesis/vue-components'
+import { NeButton, NeInlineNotification } from '@nethesis/vue-components'
 import { useI18n } from 'vue-i18n'
 import type { NameSearchResult } from '~/components/kiosk/NameSearch.vue'
 
@@ -32,19 +32,19 @@ async function checkOut() {
   <KioskDone
     v-if="done && selected"
     :title="t('kiosk.checked_out')"
-    :description="t('kiosk.checked_out_description', { name: fullName(selected) })"
+    :description="t('kiosk.checked_out_description')"
   />
-  <div v-else-if="selected" class="bg-elevation-0 space-y-6 rounded-md p-6 shadow-sm">
-    <NeHeading tag="h1">{{ t('kiosk.exit_title') }}</NeHeading>
-    <p class="text-lg">{{ t('kiosk.confirm_check_out', { name: fullName(selected), company: selected.company }) }}</p>
-    <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_check_out')" :description="error" />
-    <div class="flex flex-wrap justify-end gap-3">
-      <NeButton kind="tertiary" size="lg" :disabled="saving" @click="selected = null">{{ t('common.cancel') }}</NeButton>
-      <NeButton kind="primary" size="lg" :loading="saving" :disabled="saving" @click="checkOut">{{ t('kiosk.check_out') }}</NeButton>
+  <KioskPage v-else-if="selected" :title="t('kiosk.exit_title')">
+    <div class="space-y-6">
+      <p class="text-lg">{{ t('kiosk.confirm_check_out', { name: fullName(selected), company: selected.company }) }}</p>
+      <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_check_out')" :description="error" />
+      <div class="flex flex-wrap justify-end gap-3">
+        <NeButton kind="tertiary" size="lg" :disabled="saving" @click="selected = null">{{ t('common.cancel') }}</NeButton>
+        <NeButton kind="primary" size="lg" :loading="saving" :disabled="saving" @click="checkOut">{{ t('kiosk.check_out') }}</NeButton>
+      </div>
     </div>
-  </div>
-  <div v-else>
-    <NeHeading tag="h1" class="mb-8">{{ t('kiosk.exit_title') }}</NeHeading>
+  </KioskPage>
+  <KioskPage v-else :title="t('kiosk.exit_title')">
     <NeInlineNotification v-if="searchError" kind="error" :title="t('kiosk.cannot_search')" :description="searchError" class="mb-6" />
     <NameSearch
       v-model="query"
@@ -55,5 +55,5 @@ async function checkOut() {
       :action-label="t('kiosk.select')"
       @select="selected = $event"
     />
-  </div>
+  </KioskPage>
 </template>

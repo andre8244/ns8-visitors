@@ -50,7 +50,7 @@ html {
 html.dark {
   color-scheme: dark;
 }
-html.kiosk-home {
+html.kiosk {
   background-color: var(--color-primary-600);
 }
 @theme inline {
@@ -64,7 +64,7 @@ html.kiosk-home {
 
 /* Tablet home page: the welcome and the choices fade in rising slightly */
 @theme {
-  --animate-rise: rise 800ms ease-out both;
+  --animate-rise: rise 800ms ease-out backwards;
 
   @keyframes rise {
     from {
@@ -78,10 +78,18 @@ html.kiosk-home {
   }
 }
 
+/* Delays of the rise animation, for the parts of a page that follow */
+@utility rise-delay-1 {
+  animation-delay: 100ms;
+}
+@utility rise-delay-2 {
+  animation-delay: 200ms;
+}
+
 /* The choices follow the welcome one after the other */
 @media (prefers-reduced-motion: no-preference) {
   .rise-children > * {
-    animation: rise 600ms ease-out both;
+    animation: rise 600ms ease-out backwards;
   }
   .rise-children > :nth-child(1) {
     animation-delay: 200ms;
