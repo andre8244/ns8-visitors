@@ -3,6 +3,8 @@
     "title": "Registro visitatori"
   },
   "common": {
+    "click_to_copy": "Clicca per copiare",
+    "copied": "Copiato",
     "sign_out": "Esci",
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
@@ -250,7 +252,7 @@
     "new_code": "Crea nuovo codice",
     "cannot_create_code": "Impossibile creare il codice di abbinamento",
     "pairing_code": "Codice di abbinamento",
-    "pairing_instructions": "Sul tablet {name}, apri {url} e inserisci questo codice.",
+    "pairing_instructions": "Sul tablet {name}, apri questo indirizzo e inserisci il codice qui sotto.",
     "pairing_expires": "Il codice scade alle {time} e viene mostrato solo ora.",
     "revoke": "Revoca",
     "revoke_tablet": "Revoca tablet",

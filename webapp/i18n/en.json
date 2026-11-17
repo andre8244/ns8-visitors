@@ -3,6 +3,8 @@
     "title": "Visitor register"
   },
   "common": {
+    "click_to_copy": "Click to copy",
+    "copied": "Copied",
     "sign_out": "Sign out",
     "show_password": "Show password",
     "hide_password": "Hide password",
@@ -250,7 +252,7 @@
     "new_code": "Create new code",
     "cannot_create_code": "Cannot create pairing code",
     "pairing_code": "Pairing code",
-    "pairing_instructions": "On the tablet {name}, open {url} and enter this code.",
+    "pairing_instructions": "On the tablet {name}, open this address and enter the code below.",
     "pairing_expires": "The code expires at {time} and is shown only now.",
     "revoke": "Revoke",
     "revoke_tablet": "Revoke tablet",

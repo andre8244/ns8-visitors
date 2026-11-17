@@ -22,9 +22,10 @@ const pairUrl = computed(() => (import.meta.client ? `${window.location.origin}/
     @close="emit('close')"
   >
     <template v-if="pairing">
-      <p class="mb-4">{{ t('devices.pairing_instructions', { name: pairing.name, url: pairUrl }) }}</p>
+      <p>{{ t('devices.pairing_instructions', { name: pairing.name }) }}</p>
+      <p class="my-4 font-medium"><ClickToCopy :text="pairUrl" /></p>
       <p class="bg-elevation-1 mb-4 rounded-md py-4 text-center font-mono text-3xl font-medium tracking-widest" aria-live="polite">
-        {{ pairing.code }}
+        <ClickToCopy :text="pairing.code" />
       </p>
       <p class="text-tertiary-neutral text-sm">{{ t('devices.pairing_expires', { time: formatTime(pairing.expiresAt) }) }}</p>
     </template>
