@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NeButton, NeCard, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput } from '@nethesis/vue-components'
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
 import type { Settings } from '~~/shared/types/admin'
 
@@ -15,8 +16,8 @@ const saving = shallowRef(false)
 const saveError = shallowRef('')
 
 const themeOptions = computed(() => [
-  { id: 'light', label: t('settings.theme_light') },
-  { id: 'dark', label: t('settings.theme_dark') }
+  { id: 'light', label: t('settings.theme_light'), icon: faSun },
+  { id: 'dark', label: t('settings.theme_dark'), icon: faMoon }
 ])
 
 function fill(settings: Settings) {
@@ -97,6 +98,8 @@ async function save() {
             v-model="form.kioskTheme"
             :label="t('settings.kiosk_theme')"
             :options="themeOptions"
+            card
+            grid-style="grid-cols-2 gap-3"
             :disabled="saving"
           />
           <NeInlineNotification v-if="saveError" kind="error" :title="t('settings.cannot_save')" :description="saveError" />
