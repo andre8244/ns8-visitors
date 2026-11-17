@@ -6,16 +6,23 @@ const { t } = useI18n()
 const { toasts, remove } = useToasts()
 </script>
 
+<!-- Toast notifications at the top right, under the top bar, as in My Nethesis -->
 <template>
-  <div class="pointer-events-none fixed right-4 bottom-4 z-50 flex w-full max-w-sm flex-col gap-3" aria-live="polite">
-    <NeToastNotificationV2
-      v-for="toast in toasts"
-      :key="toast.id"
-      :notification="toast"
-      :sr-close-label="t('common.close')"
-      show-close-button
-      class="pointer-events-auto"
-      @close="remove(toast.id)"
-    />
-  </div>
+  <Teleport to="body">
+    <div aria-live="assertive" class="pointer-events-none fixed inset-0 z-120 flex items-start px-8 pt-24 pb-6 text-sm">
+      <div class="flex w-full flex-col items-end space-y-4">
+        <TransitionGroup name="fade">
+          <NeToastNotificationV2
+            v-for="toast in toasts"
+            :key="toast.id"
+            :notification="toast"
+            :sr-close-label="t('common.close')"
+            show-close-button
+            class="pointer-events-auto"
+            @close="remove(toast.id)"
+          />
+        </TransitionGroup>
+      </div>
+    </div>
+  </Teleport>
 </template>
