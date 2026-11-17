@@ -12,12 +12,20 @@ export type KioskConfig = {
 export function useKiosk() {
   const { t } = useI18n()
   const config = useState<KioskConfig | null>('kiosk-config', () => null)
-  const { clear } = useUserSession()
+  const { clear, fetch } = useUserSession()
 
-  const api = createApiClient(async () => {
-    await clear()
-    await navigateTo('/kiosk/pair')
-  }, [401, 403])
+  // A revoked tablet loses its session. An admin session, after signing in
+  // as admin in this browser, is kept: the pairing page tells about it
+  const api = createApiClient({
+    401: async () => {
+      await clear()
+      await navigateTo('/kiosk/pair')
+    },
+    403: async () => {
+      await fetch()
+      await navigateTo('/kiosk/pair')
+    }
+  })
 
   async function loadConfig() {
     config.value = await api<KioskConfig>('/api/kiosk/config')

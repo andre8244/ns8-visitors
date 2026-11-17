@@ -5,7 +5,10 @@ import { useI18n } from 'vue-i18n'
 definePageMeta({ layout: 'kiosk', middleware: 'kiosk' })
 
 const { t } = useI18n()
-const { fetch: fetchSession } = useUserSession()
+const { fetch: fetchSession, user } = useUserSession()
+
+// Pairing replaces the session of an administrator in this browser
+const adminSession = computed(() => user.value?.kind === 'admin')
 
 const code = shallowRef('')
 const codeError = shallowRef('')
@@ -36,6 +39,13 @@ async function pair() {
 <template>
   <NeCard :title="t('kiosk.pair_title')" class="mx-auto max-w-md">
     <p class="mb-6">{{ t('kiosk.pair_description') }}</p>
+    <NeInlineNotification
+      v-if="adminSession"
+      kind="warning"
+      :title="t('kiosk.admin_session_title')"
+      :description="t('kiosk.admin_session_description')"
+      class="mb-6"
+    />
     <form class="space-y-6" novalidate @submit.prevent="pair">
       <NeTextInput
         v-model="code"
@@ -44,7 +54,6 @@ async function pair() {
         autocomplete="off"
         autocapitalize="characters"
         spellcheck="false"
-        class="font-mono"
       />
       <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_pair')" :description="error" />
       <NeButton type="submit" kind="primary" size="lg" :loading="pairing" :disabled="pairing">{{ t('kiosk.pair') }}</NeButton>

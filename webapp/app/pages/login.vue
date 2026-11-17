@@ -3,7 +3,12 @@ import { NeButton, NeCard, NeInlineNotification, NeTextInput } from '@nethesis/v
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const { fetch: fetchSession } = useUserSession()
+const { fetch: fetchSession, user } = useUserSession()
+
+// The session of this browser, when it is a paired tablet: signing in
+// replaces it
+fetchSession()
+const pairedTablet = computed(() => user.value?.kind === 'kiosk')
 
 const username = ref('')
 const password = ref('')
@@ -55,6 +60,13 @@ async function signIn() {
 <template>
   <div class="mx-auto max-w-sm">
     <NeCard :title="t('login.title')">
+      <NeInlineNotification
+        v-if="pairedTablet"
+        kind="warning"
+        :title="t('login.paired_tablet_title')"
+        :description="t('login.paired_tablet_description')"
+        class="mb-6"
+      />
       <form class="space-y-4" novalidate @submit.prevent="signIn">
         <NeTextInput
           v-model="username"

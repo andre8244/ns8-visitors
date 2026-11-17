@@ -4,12 +4,11 @@ import type { NitroFetchOptions } from 'nitropack'
 // makes the type check too deep for TypeScript
 export type ApiClient = <T = unknown>(url: string, options?: NitroFetchOptions<string>) => Promise<T>
 
-export function createApiClient(onUnauthorized: () => Promise<void>, statuses: number[]): ApiClient {
+// `handlers` react to some statuses, such as a session that ended
+export function createApiClient(handlers: Partial<Record<number, () => Promise<unknown>>>): ApiClient {
   return $fetch.create({
     async onResponseError({ response }) {
-      if (statuses.includes(response.status)) {
-        await onUnauthorized()
-      }
+      await handlers[response.status]?.()
     }
   }) as ApiClient
 }

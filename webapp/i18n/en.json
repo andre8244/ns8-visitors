@@ -26,6 +26,8 @@
   },
   "login": {
     "title": "Sign in",
+    "paired_tablet_title": "This browser is paired as a tablet",
+    "paired_tablet_description": "Signing in removes the pairing. To use this browser as a tablet again, create a new tablet.",
     "username": "Username",
     "password": "Password",
     "sign_in": "Sign in",
@@ -322,6 +324,8 @@
     "checked_out_description": "The check-out of {name} has been recorded.",
     "pair_title": "Pair this tablet",
     "pair_description": "Enter the code shown to the administrator in Tablets, in the visitor register.",
+    "admin_session_title": "This browser is signed in as an administrator",
+    "admin_session_description": "Pairing it as a tablet signs you out of the administration pages.",
     "pairing_code": "Pairing code",
     "enter_code": "Enter the 8 characters of the code",
     "pair": "Pair",

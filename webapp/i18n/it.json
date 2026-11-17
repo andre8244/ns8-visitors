@@ -26,6 +26,8 @@
   },
   "login": {
     "title": "Accedi",
+    "paired_tablet_title": "Questo browser è abbinato come tablet",
+    "paired_tablet_description": "Accedendo, l'abbinamento viene rimosso. Per usare di nuovo questo browser come tablet, crea un nuovo tablet.",
     "username": "Nome utente",
     "password": "Password",
     "sign_in": "Accedi",
@@ -322,6 +324,8 @@
     "checked_out_description": "L'uscita di {name} è stata registrata.",
     "pair_title": "Abbina questo tablet",
     "pair_description": "Inserisci il codice mostrato all'amministratore nella pagina Tablet del registro visitatori.",
+    "admin_session_title": "Questo browser è connesso come amministratore",
+    "admin_session_description": "Se lo abbini come tablet, esci dalle pagine di amministrazione.",
     "pairing_code": "Codice di abbinamento",
     "enter_code": "Inserisci gli 8 caratteri del codice",
     "pair": "Abbina",
