@@ -56,6 +56,12 @@
     "devices": "Tablet",
     "settings": "Impostazioni"
   },
+  "shell": {
+    "open_sidebar": "Apri barra laterale",
+    "close_sidebar": "Chiudi barra laterale",
+    "account": "Account",
+    "open_account_menu": "Apri menu account"
+  },
   "paginator": {
     "label": "Paginazione",
     "next": "Vai alla pagina successiva",

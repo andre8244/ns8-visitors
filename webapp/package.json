@@ -23,6 +23,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.3.3",
+    "@headlessui/vue": "^1.7.23",
     "@nethesis/vue-components": "^3.16.0",
     "@vueuse/core": "^15.0.0",
     "better-sqlite3": "^13.0.3",
