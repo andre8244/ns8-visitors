@@ -1,0 +1,45 @@
+dn: dc=visitors,dc=test
+objectClass: dcObject
+objectClass: organization
+dc: visitors
+o: Visitors test
+
+dn: ou=People,dc=visitors,dc=test
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=visitors,dc=test
+objectClass: organizationalUnit
+ou: Groups
+
+# Member of the admin group: can sign in
+dn: uid=reception,ou=People,dc=visitors,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: reception
+cn: Reception
+sn: Reception
+displayName: Reception
+uidNumber: 2001
+gidNumber: 2001
+homeDirectory: /home/reception
+userPassword: visitors
+
+# Not in the admin group: sign-in refused
+dn: uid=guest,ou=People,dc=visitors,dc=test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: guest
+cn: Guest
+sn: Guest
+displayName: Guest
+uidNumber: 2002
+gidNumber: 2002
+homeDirectory: /home/guest
+userPassword: visitors
+
+dn: cn=visitors-admin,ou=Groups,dc=visitors,dc=test
+objectClass: posixGroup
+cn: visitors-admin
+gidNumber: 3001
+memberUid: reception

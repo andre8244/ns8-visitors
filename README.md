@@ -90,9 +90,19 @@ Any recent pnpm works: inside `webapp/` it switches automatically to the
 version pinned in the `packageManager` field of `package.json`.
 
     cd webapp
-    cp .env.example .env    # adjust LDAP settings
+    cp .env.example .env
     pnpm install
+    pnpm dev:ldap           # test LDAP server, needs Podman or Docker
     pnpm dev
+
+Open http://localhost:3000 and sign in as `reception`, password
+`visitors`: a member of the `visitors-admin` group. The user `guest`, same
+password, is not an admin and cannot sign in. Users and group are in
+`webapp/dev/ldap/seed.ldif`; stop the server with `podman stop
+visitors-dev-ldap`, and restart it with `pnpm dev:ldap` to reset the
+data. To try the tablet pages from a tablet in the same network, start
+the application with `pnpm dev --host` and open
+`http://<computer address>:3000/kiosk`.
 
 Checks, all run by the "Test app" GitHub workflow:
 

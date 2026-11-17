@@ -1,0 +1,12 @@
+# OpenLDAP server with test users, for local development only (pnpm
+# dev:ldap, see the README of the repository). Never used by the module.
+FROM docker.io/library/alpine:3.24.4
+RUN apk add --no-cache openldap openldap-back-mdb
+COPY slapd.conf /etc/openldap/slapd.conf
+COPY seed.ldif /tmp/seed.ldif
+RUN mkdir -p /var/lib/openldap/data /run/openldap \
+    && slapadd -f /etc/openldap/slapd.conf -l /tmp/seed.ldif \
+    && chown -R ldap:ldap /var/lib/openldap /run/openldap
+USER ldap
+EXPOSE 3890
+CMD ["slapd", "-d", "0", "-f", "/etc/openldap/slapd.conf", "-h", "ldap://0.0.0.0:3890/"]
