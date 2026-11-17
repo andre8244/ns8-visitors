@@ -33,6 +33,12 @@ async function signIn() {
     await navigateTo('/admin')
   } catch (err: any) {
     const status: number | undefined = err?.statusCode
+    if (status === 429) {
+      const seconds = Number(err.response?.headers.get('retry-after')) || 60
+      const minutes = Math.ceil(seconds / 60)
+      error.value = t('login.too_many_attempts', minutes)
+      return
+    }
     const messages: Record<number, string> = {
       400: t('login.wrong_credentials'),
       401: t('login.wrong_credentials'),

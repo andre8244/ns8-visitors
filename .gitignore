@@ -104,3 +104,6 @@ dist
 .tern-port
 
 tests/outputs/
+
+# pnpm store, when pnpm puts it in the repository
+.pnpm-store/

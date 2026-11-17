@@ -34,6 +34,7 @@
     "cannot_sign_in": "Cannot sign in",
     "wrong_credentials": "Incorrect username or password.",
     "not_admin": "You don't have permission to access the visitor register.",
+    "too_many_attempts": "Too many failed attempts. Try again in {n} minute. | Too many failed attempts. Try again in {n} minutes.",
     "ldap_unavailable": "Cannot reach the authentication server. Try again later.",
     "network_error": "Network error. Check your connection and reload the page.",
     "generic_error": "Something went wrong."

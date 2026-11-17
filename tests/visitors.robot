@@ -21,8 +21,8 @@ Login to cluster-admin
     Wait For Elements State    css=#main-content    visible    timeout=10s
 
 Sign in to the app
-    [Arguments]    ${user}    ${expected_status}
-    ${status} =    Execute Command    curl -s -o /dev/null -w '\%{http_code}' -H 'Host: ${host}' -H 'Content-Type: application/json' -d '{"username":"${user}","password":"${user_password}"}' http://127.0.0.1/api/auth/login
+    [Arguments]    ${user}    ${expected_status}    ${password}=${user_password}
+    ${status} =    Execute Command    curl -s -o /dev/null -w '\%{http_code}' -H 'Host: ${host}' -H 'Content-Type: application/json' -d '{"username":"${user}","password":"${password}"}' http://127.0.0.1/api/auth/login
     Should Be Equal As Strings    ${status}    ${expected_status}
 
 The login page answers
@@ -116,6 +116,15 @@ Check if the database is backed up and restored
     Wait Until Keyword Succeeds    60s    3s    The login page answers
     ${notices} =    Call the admin API    GET    /api/admin/notice
     Should Contain    ${notices}    Robot backup test
+
+# Last before the removal: the failures block this address for 15 minutes
+Check if repeated wrong passwords are blocked
+    FOR    ${i}    IN RANGE    10
+        Sign in to the app    guest    401    wrong-password
+    END
+    Sign in to the app    guest    429    wrong-password
+    # Until the window ends, the right password too
+    Sign in to the app    guest    429
 
 Check if visitors is removed correctly
     ${rc} =    Execute Command    remove-module --no-preserve ${module_id}

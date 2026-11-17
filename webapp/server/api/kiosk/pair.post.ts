@@ -6,7 +6,7 @@ const bodySchema = z.object({ code: z.string().trim().toUpperCase().regex(/^[A-Z
 // Pair this browser with a tablet created by an admin: the code works once,
 // within its expiry
 export default defineEventHandler(async (event) => {
-  rateLimit(`pair:${getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'}`, 10, 60_000)
+  rateLimit(`pair:${getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'}`, 10, 60_000, event)
   const { code } = await readValidatedBody(event, bodySchema.parse)
   const db = useDb()
   const now = new Date()

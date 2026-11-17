@@ -1,6 +1,7 @@
+import type { H3Event } from 'h3'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { deviceStatus } from '../../server/utils/devices'
-import { rateLimit } from '../../server/utils/rate-limit'
+import { checkLimit, countHit, forgetHit, rateLimit, resetHits } from '../../server/utils/rate-limit'
 import { containsPattern, startOfDay } from '../../server/utils/validation'
 
 beforeAll(() => {
@@ -51,6 +52,30 @@ describe('rateLimit', () => {
       vi.advanceTimersByTime(60_001)
       expect(() => rateLimit('unit', 3, 60_000)).not.toThrow()
       expect(() => rateLimit('other', 3, 60_000)).not.toThrow()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+})
+
+describe('checkLimit', () => {
+  it('counts only the hits given, and tells when to retry', () => {
+    const headers: Record<string, unknown> = {}
+    vi.stubGlobal('setResponseHeader', (_event: unknown, name: string, value: unknown) => (headers[name] = value))
+    const event = {} as H3Event
+    vi.useFakeTimers()
+    try {
+      checkLimit('login', 2, 60_000, event)
+      countHit('login')
+      vi.advanceTimersByTime(20_000)
+      countHit('login')
+      expect(() => checkLimit('login', 2, 60_000, event)).toThrow(expect.objectContaining({ statusCode: 429 }))
+      expect(headers['Retry-After']).toBe(40)
+      forgetHit('login')
+      expect(() => checkLimit('login', 2, 60_000, event)).not.toThrow()
+      countHit('login')
+      resetHits('login')
+      expect(() => checkLimit('login', 2, 60_000, event)).not.toThrow()
     } finally {
       vi.useRealTimers()
     }

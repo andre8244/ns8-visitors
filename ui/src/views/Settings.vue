@@ -60,6 +60,13 @@
               :invalid-message="$t(error.ip_allowlist)"
               ref="ip_allowlist"
             ></cv-text-area>
+            <NsInlineNotification
+              v-if="isAllowlistEmpty"
+              kind="warning"
+              :title="$t('settings.no_ip_allowlist_title')"
+              :description="$t('settings.no_ip_allowlist_description')"
+              :showCloseButton="false"
+            />
             <NsToggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -162,6 +169,9 @@ export default {
   },
   computed: {
     ...mapState(["instanceName", "core", "appName"]),
+    isAllowlistEmpty() {
+      return !this.loading.getConfiguration && !this.ip_allowlist.trim();
+    },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {

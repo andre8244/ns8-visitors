@@ -85,8 +85,10 @@ describe('login', () => {
     expect(response.status).toBe(400)
   })
 
-  it('answers 503 when LDAP is unreachable', async () => {
-    const response = await server.client().post('/api/auth/login', { username: 'mario', password: 'x' })
-    expect(response.status).toBe(503)
+  it('answers 503 when LDAP is unreachable, without counting a failure', async () => {
+    const client = server.client()
+    for (let i = 0; i < 12; i++) {
+      expect((await client.post('/api/auth/login', { username: 'mario', password: 'x' })).status).toBe(503)
+    }
   })
 })

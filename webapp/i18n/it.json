@@ -34,6 +34,7 @@
     "cannot_sign_in": "Impossibile accedere",
     "wrong_credentials": "Nome utente o password non corretti.",
     "not_admin": "Non hai i permessi per accedere al registro visitatori.",
+    "too_many_attempts": "Troppi tentativi non riusciti. Riprova tra {n} minuto. | Troppi tentativi non riusciti. Riprova tra {n} minuti.",
     "ldap_unavailable": "Impossibile raggiungere il server di autenticazione. Riprova più tardi.",
     "network_error": "Errore di rete. Controlla la connessione e ricarica la pagina.",
     "generic_error": "Si è verificato un errore."

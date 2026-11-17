@@ -31,6 +31,8 @@
         "admin_group_helper": "Members of this LDAP group can sign in to the visitor register and manage it.",
         "ip_allowlist": "Allowed networks",
         "ip_allowlist_helper": "IP addresses or networks in CIDR notation, one per line. Leave it empty to allow any client.",
+        "no_ip_allowlist_title": "Reachable from any network",
+        "no_ip_allowlist_description": "Any client that reaches this node can open the application. Enter the office networks to restrict access.",
         "lets_encrypt": "Request Let's Encrypt certificate",
         "http2https": "Force HTTPS",
         "enabled": "Enabled",

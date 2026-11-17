@@ -82,7 +82,9 @@ describe('pairing', () => {
     for (let i = 0; i < 10; i++) {
       expect((await tablet.post('/api/kiosk/pair', { code: 'AAAAAAAA' })).status).toBe(400)
     }
-    expect((await tablet.post('/api/kiosk/pair', { code: 'AAAAAAAA' })).status).toBe(429)
+    const limited = await tablet.post('/api/kiosk/pair', { code: 'AAAAAAAA' })
+    expect(limited.status).toBe(429)
+    expect(Number(limited.headers.get('retry-after'))).toBeGreaterThan(50)
     expect((await server.client('198.51.100.8').post('/api/kiosk/pair', { code: 'AAAAAAAA' })).status).toBe(400)
   })
 })

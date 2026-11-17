@@ -33,6 +33,8 @@
         "admin_group_helper": "I membri di questo gruppo LDAP possono accedere al registro visitatori e gestirlo.",
         "ip_allowlist": "Reti consentite",
         "ip_allowlist_helper": "Indirizzi IP o reti in notazione CIDR, uno per riga. Lascia vuoto per consentire qualsiasi client.",
+        "no_ip_allowlist_title": "Raggiungibile da qualsiasi rete",
+        "no_ip_allowlist_description": "Qualsiasi client che raggiunge questo nodo può aprire l'applicazione. Inserisci le reti dell'ufficio per limitare l'accesso.",
         "lets_encrypt": "Richiedi certificato Let's Encrypt",
         "http2https": "Forza HTTPS",
         "enabled": "Abilitato",
