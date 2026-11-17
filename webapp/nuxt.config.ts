@@ -11,6 +11,11 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   app: {
     head: {
+      // The icon of My Nethesis
+      link: [
+        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+        { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }
+      ],
       // Sets the theme before the page shows, with no white flash in the
       // dark theme. Keys: useAdminTheme() and useKiosk()
       script: [
