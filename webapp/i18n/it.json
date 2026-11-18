@@ -266,7 +266,7 @@
   },
   "settings": {
     "title": "Impostazioni",
-    "description": "Conservazione dei dati, uscita automatica e aspetto del tablet.",
+    "description": "Conservazione dei dati e uscita automatica.",
     "retention": "Periodo di conservazione (mesi)",
     "retention_helper": "Visite, firme ed eventi più vecchi vengono eliminati automaticamente.",
     "enter_retention": "Inserisci un numero di mesi tra 1 e 120",

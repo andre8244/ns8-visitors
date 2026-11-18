@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { signatureDataUrl, signaturePng, startServer, unix, type Client, type TestServer } from './server'
+import { KIOSK_THEME_SELECTABLE } from '../../shared/utils/kiosk-theme'
 
 let server: TestServer
 let admin: Client
@@ -102,10 +103,15 @@ describe('revocation', () => {
 
 describe('config', () => {
   it('gives the current notice, the theme and the events of today', async () => {
-    await admin.patch('/api/admin/settings', { kioskTheme: 'dark' })
     const config = await kiosk.get('/api/kiosk/config')
     expect(config.status).toBe(200)
-    expect(config.data).toMatchObject({ deviceName: 'Ingresso', theme: 'dark', notice: { id: noticeId } })
+    expect(config.data).toMatchObject({ deviceName: 'Ingresso', theme: 'light', notice: { id: noticeId } })
+  })
+
+  it('keeps the light theme while the choice is hidden', async () => {
+    await admin.patch('/api/admin/settings', { kioskTheme: 'dark' })
+    const config = await kiosk.get('/api/kiosk/config')
+    expect(config.data.theme).toBe(KIOSK_THEME_SELECTABLE ? 'dark' : 'light')
     await admin.patch('/api/admin/settings', { kioskTheme: 'light' })
   })
 })

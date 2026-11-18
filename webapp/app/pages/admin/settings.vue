@@ -95,6 +95,7 @@ async function save() {
             :disabled="saving"
           />
           <NeRadioSelection
+            v-if="KIOSK_THEME_SELECTABLE"
             v-model="form.kioskTheme"
             :label="t('settings.kiosk_theme')"
             :options="themeOptions"
