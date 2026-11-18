@@ -35,6 +35,58 @@ touches it goes back to its home page.
 
 ## Architecture
 
+```text
+  Tablet (kiosk)                       Admin PC
+  /kiosk/*  1-year session             /admin/*  LDAP, 14-day session
+       │                                   │
+       └──────────── HTTPS ────────────────┘
+                       │
+┌──────────────────────┼─────────────────────────── NS8 node ─────────┐
+│                      ▼                                              │
+│  ┌──────────────────────────────────────┐                           │
+│  │ Traefik                              │  route: host, HTTPS,      │
+│  │  IP allowlist (LAN and VPN)          │  Let's Encrypt            │
+│  └──────────────────┬───────────────────┘                           │
+│                     │ 127.0.0.1:TCP_PORT                            │
+│  ┌──────────────────┼───────── visitors.service (podman, node) ──┐  │
+│  │                  ▼                                            │  │
+│  │  ┌────────────────────────────────────────────────────────┐   │  │
+│  │  │ Nuxt 4                                                 │   │  │
+│  │  │  ┌──────────────────────┐   ┌───────────────────────┐  │   │  │
+│  │  │  │ Frontend SPA         │   │ Nitro backend         │  │   │  │
+│  │  │  │ Vue 3, Tailwind 4    │──▶│ /api/admin/*          │  │   │  │
+│  │  │  │ vue-components       │   │   requireAdmin        │  │   │  │
+│  │  │  │ vue-i18n (it, en)    │   │ /api/kiosk/*          │  │   │  │
+│  │  │  └──────────────────────┘   │   requireKiosk        │  │   │  │
+│  │  │                             │ zod, rate limits, CSP │  │   │  │
+│  │  │                             │ sealed cookies        │  │   │  │
+│  │  │                             │ job every 15 minutes  │  │   │  │
+│  │  │                             └───┬────────────┬──────┘  │   │  │
+│  │  └─────────────────────────────────┼────────────┼─────────┘   │  │
+│  │                                    │ Drizzle    │ ldapts      │  │
+│  │                                    ▼            │             │  │
+│  │  ┌───────────────── visitors-data volume ──┐    │             │  │
+│  │  │ SQLite (WAL, secure_delete)             │    │             │  │
+│  │  │ setting  notice_version  device         │    │             │  │
+│  │  │ event  event_guest  visit (PNG sign.)   │    │             │  │
+│  │  │ audit_log                               │    │             │  │
+│  │  └──────────────────┬──────────────────────┘    │             │  │
+│  └─────────────────────┼───────────────────────────┼─────────────┘  │
+│                        │ VACUUM INTO               │ accountprovider│
+│                        ▼                           ▼ (10.0.2.2)     │
+│  ┌────────────────────────────┐   ┌───────────────────────────────┐ │
+│  │ state/visitors-dump.sqlite │   │ LDAP user domain              │ │
+│  │ restic backup (encrypted)  │   │ (found through Ldapproxy)     │ │
+│  └────────────────────────────┘   └───────────────────────────────┘ │
+│                                                                     │
+│  Module actions (imageroot/), Vue 2 + Carbon UI (ui/):              │
+│   create-module     session secret in passwords.env                 │
+│   configure-module  LDAP domain, Traefik route, service start       │
+│   discover-ldap     LDAP parameters before every start              │
+│   restore-module    database restore and configuration              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 - **NS8 module** (`imageroot/`, `ui/`): Python and bash actions configure
   the Traefik route (host, HTTPS, optional IP allowlist), bind the module
   to the LDAP user domain and handle backup and restore. The settings page
