@@ -24,6 +24,11 @@ automatically. Every admin action is recorded in an audit log.
 The tablet stays paired until an admin revokes it. After a minute without
 touches it goes back to its home page.
 
+A browser holds either the admin session or the tablet pairing: signing
+in to the admin pages removes the pairing, and pairing signs out the
+admin. To use both on the same computer, open the tablet pages in a
+private window or in another browser.
+
 ## Repository layout
 
 - `webapp/`: the web application, built with Nuxt, pnpm, Drizzle ORM on
@@ -165,7 +170,10 @@ password, is not an admin and cannot sign in. Users and group are in
 visitors-dev-ldap`, and restart it with `pnpm dev:ldap` to reset the
 data. To try the tablet pages from a tablet in the same network, start
 the application with `pnpm dev --host` and open
-`http://<computer address>:3000/kiosk`.
+`http://<computer address>:3000/kiosk`. To try them on the same
+computer, open http://localhost:3000/kiosk in a private window or in
+another browser, so the pairing does not sign you out of the admin
+pages.
 
 To try the pages with some data, fill the development database with
 `pnpm dev:seed`: visits of the last three months, some still in the
