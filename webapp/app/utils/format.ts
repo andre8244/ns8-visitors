@@ -1,8 +1,19 @@
 const LOCALE = 'it-IT'
 
+// Month as a word, as "17 nov 2026, 18:26": no doubt between day and month
 export function formatDateTime(value: Date | string | null | undefined) {
   if (!value) return ''
-  return new Intl.DateTimeFormat(LOCALE, { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value))
+  return new Intl.DateTimeFormat(LOCALE, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+}
+
+// ISO 8601, as "2026-11-17 18:26": the format of the CSV export. Spreadsheets
+// read it as a date and time whatever the language of the computer, and it
+// sorts by date even as text
+export function formatDateTimeIso(value: Date | string | null | undefined) {
+  if (!value) return ''
+  const date = new Date(value)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
 
 export function formatTime(value: Date | string | null | undefined) {

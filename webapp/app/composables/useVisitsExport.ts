@@ -31,8 +31,8 @@ export function useVisitsExport() {
           visit.company,
           visit.host,
           visit.eventName,
-          formatDateTime(visit.checkInAt),
-          formatDateTime(visit.checkOutAt),
+          formatDateTimeIso(visit.checkInAt),
+          formatDateTimeIso(visit.checkOutAt),
           visit.checkOutBy ? t(`visits.check_out_by.${visit.checkOutBy}`) : ''
         ])
       ]
