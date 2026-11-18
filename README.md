@@ -33,6 +33,37 @@ touches it goes back to its home page.
 - `build-images.sh`: builds both the module image and the
   `visitors-app` image.
 
+## Architecture
+
+- **NS8 module** (`imageroot/`, `ui/`): Python and bash actions configure
+  the Traefik route (host, HTTPS, optional IP allowlist), bind the module
+  to the LDAP user domain and handle backup and restore. The settings page
+  is built with Vue 2 and Carbon, as in the other NS8 modules.
+- **Application container** (`webapp/`): one Nuxt 4 application on a
+  pinned Node.js Alpine image, running as the `node` user under a systemd
+  unit.
+  - Frontend: a Vue 3 single-page application (no server-side rendering)
+    with Tailwind CSS and `@nethesis/vue-components`, the components of the
+    Nebula Design System.
+  - Backend: the Nitro server of Nuxt, a REST API in TypeScript with input
+    validated by `zod`.
+- **Data**: SQLite through better-sqlite3 and Drizzle ORM, migrated at
+  startup. Signatures are PNG images stored in the database. A job every
+  15 minutes closes the visits still open after the automatic check-out
+  time and deletes the data older than the retention period.
+- **Access**:
+  - Admins sign in against LDAP (`ldapts`) and must belong to the admin
+    group. The session lasts 14 days.
+  - A tablet is paired with a single-use code and can call only the tablet
+    API. The pairing lasts until an admin revokes the tablet.
+  - Both sessions are sealed cookies of `nuxt-auth-utils`. Logins and
+    tablet searches are rate limited, the responses carry security headers
+    with a Content Security Policy, and the audit log records changes,
+    exports and viewed signatures.
+- **Tests and CI**: unit tests and API tests on the built server with
+  Vitest, module tests on NS8 with Robot Framework. GitHub Actions run the
+  tests and publish both images to ghcr.io.
+
 ## Install
 
 Instantiate the module with:
