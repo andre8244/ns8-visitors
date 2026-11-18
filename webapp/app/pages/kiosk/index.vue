@@ -30,7 +30,17 @@ useIntervalFn(load, RELOAD_MS)
     <!-- Larger than the h1 of NeHeading: the greeting of the entrance -->
     <h1 class="motion-safe:animate-rise mt-4 mb-10 text-center text-4xl font-medium text-white sm:text-5xl">{{ t('kiosk.welcome') }}</h1>
     <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_load')" :description="error" class="mb-6" />
-    <NeSkeleton v-if="!config && !error" :lines="6" />
+    <!-- Same shape as the KioskChoice cards, icon in the gray of NeSkeleton.
+         Two cards: on most days there is no event -->
+    <div v-if="!config && !error" class="space-y-4">
+      <div v-for="n in 2" :key="n" class="bg-elevation-0 flex items-center gap-6 rounded-md p-6 shadow-sm">
+        <div class="h-10 w-10 shrink-0 animate-pulse rounded bg-gray-300 dark:bg-gray-700" />
+        <div class="flex-1 space-y-3">
+          <NeSkeleton size="lg" class="w-2/3" />
+          <NeSkeleton class="w-1/2" />
+        </div>
+      </div>
+    </div>
     <template v-else-if="config">
       <NeInlineNotification
         v-if="!config.notice"
