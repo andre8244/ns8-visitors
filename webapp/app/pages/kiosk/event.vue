@@ -52,6 +52,19 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
   const ok = await run(() => api<{ ok: boolean }>(url, { method: 'POST', body }))
   if (ok) doneName.value = fullName(person)
 }
+
+function mascotHelp() {
+  if (!eventId.value) return t('kiosk.mascot.help.choose_event')
+  if (guest.value) return guest.value.signed ? t('kiosk.mascot.help.event_signed') : t('kiosk.mascot.help.event_sign')
+  if (walkIn.value) return t('kiosk.mascot.help.walk_in')
+  return t('kiosk.mascot.help.event_search', { count: SEARCH_MIN_LENGTH })
+}
+
+useMascot(() => {
+  // An error of the step on screen: the check-in of a guest or a walk-in, else the search
+  const sad = !!(guest.value || walkIn.value ? error.value : eventId.value && searchError.value)
+  return { mood: sad ? 'sad' : 'normal', message: sad ? t('kiosk.mascot.sorry') : '', help: mascotHelp() }
+})
 </script>
 
 <template>
@@ -96,11 +109,11 @@ async function checkInWalkIn({ person, signature }: CheckInSubmit) {
           </NeButton>
         </div>
       </div>
-    </KioskPage>
+      </KioskPage>
     <!-- 3b. not in the list: registers and is added to the event -->
     <KioskPage v-else-if="walkIn" :title="t('kiosk.walk_in_title')" :subtitle="eventName">
       <CheckInForm mode="walk-in" :notice="config.notice.bodyMd" :saving="saving" :error="error" @submit="checkInWalkIn" />
-    </KioskPage>
+      </KioskPage>
     <!-- 2. search the name in the guest list -->
     <KioskPage v-else :title="t('kiosk.event_title')" :subtitle="eventName">
       <NeInlineNotification v-if="searchError" kind="error" :title="t('kiosk.cannot_search')" :description="searchError" class="mb-6" />

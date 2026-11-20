@@ -24,6 +24,12 @@ async function checkIn({ person, signature }: CheckInSubmit) {
   )
   if (ok) doneName.value = fullName(person)
 }
+
+useMascot(() => ({
+  mood: error.value ? 'sad' : 'normal',
+  message: error.value ? t('kiosk.mascot.sorry') : '',
+  help: t('kiosk.mascot.help.visit')
+}))
 </script>
 
 <template>

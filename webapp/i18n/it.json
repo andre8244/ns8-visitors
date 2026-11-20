@@ -335,6 +335,25 @@
     "invalid_code": "Il codice è errato o scaduto. Chiedi un nuovo codice all'amministratore.",
     "too_many_requests": "Troppi tentativi. Attendi un minuto e riprova.",
     "network_error": "Errore di rete. Chiedi aiuto alla reception.",
-    "generic_error": "Si è verificato un errore. Chiedi aiuto alla reception."
+    "generic_error": "Si è verificato un errore. Chiedi aiuto alla reception.",
+    "mascot": {
+      "checked_in": "Ti diamo il benvenuto! Prima di andare via, ricordati di registrare l'uscita.",
+      "checked_out": "Grazie della visita!",
+      "sorry": "Mi dispiace, si è verificato un errore!",
+      "show_help": "Mostra aiuto",
+      "help": {
+        "home": "Registra l'ingresso quando arrivi e l'uscita quando te ne vai. Bastano nome, cognome, azienda e una firma.",
+        "visit": "Leggi l'informativa sulla privacy, inserisci nome, cognome e azienda, poi firma con il dito nel riquadro. Il referente è facoltativo.",
+        "choose_event": "Oggi ci sono più eventi: tocca quello a cui partecipi.",
+        "event_search": "Scrivi almeno {count} lettere del tuo nome o cognome, poi tocca Seleziona accanto al tuo nome. Non sei nell'elenco? Registrati con i tuoi dati.",
+        "event_sign": "Leggi l'informativa e firma con il dito. Si firma solo il primo giorno: nei giorni successivi basta registrare l'ingresso.",
+        "event_signed": "Hai già firmato il primo giorno: tocca Registra ingresso e hai finito.",
+        "walk_in": "Inserisci nome, cognome e azienda, poi firma: ti aggiungo all'elenco degli ospiti dell'evento.",
+        "exit_search": "Scrivi almeno {count} lettere del tuo nome o cognome, poi tocca Seleziona accanto al tuo nome.",
+        "exit_confirm": "Controlla che nome e azienda siano i tuoi, poi tocca Registra uscita.",
+        "done": "Tra pochi secondi torno all'inizio da solo.",
+        "pair": "Un amministratore aggiunge questo tablet nella pagina Tablet del registro visitatori e riceve un codice di 8 caratteri. Inseriscilo qui: vale 10 minuti."
+      }
+    }
   }
 }

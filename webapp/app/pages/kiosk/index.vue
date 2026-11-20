@@ -23,6 +23,14 @@ async function load() {
 }
 load()
 useIntervalFn(load, RELOAD_MS)
+
+// Sorry for an error, and for a tablet that cannot register visits
+const sad = computed(() => !!error.value || (!!config.value && !config.value.notice))
+useMascot(() => ({
+  mood: sad.value ? 'sad' : 'normal',
+  message: sad.value ? t('kiosk.mascot.sorry') : '',
+  help: sad.value ? t('kiosk.not_available_description') : t('kiosk.mascot.help.home')
+}))
 </script>
 
 <template>

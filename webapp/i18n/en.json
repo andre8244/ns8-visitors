@@ -335,6 +335,25 @@
     "invalid_code": "The code is wrong or expired. Ask the administrator for a new one.",
     "too_many_requests": "Too many attempts. Wait a minute and try again.",
     "network_error": "Network error. Ask the reception for help.",
-    "generic_error": "Something went wrong. Ask the reception for help."
+    "generic_error": "Something went wrong. Ask the reception for help.",
+    "mascot": {
+      "checked_in": "Welcome! Before you leave, remember to check out.",
+      "checked_out": "Thanks for visiting!",
+      "sorry": "Sorry, something went wrong!",
+      "show_help": "Show help",
+      "help": {
+        "home": "Check in when you arrive and check out when you leave. All it takes is your name, last name, company and a signature.",
+        "visit": "Read the privacy notice, enter your first name, last name and company, then sign in the box with your finger. The contact person is optional.",
+        "choose_event": "There is more than one event today: tap the one you are attending.",
+        "event_search": "Type at least {count} letters of your first or last name, then tap Select next to your name. Not on the list? Check in with your data.",
+        "event_sign": "Read the privacy notice and sign with your finger. You sign only on the first day: on the next days, you just check in.",
+        "event_signed": "You signed on the first day: tap Check in and you are done.",
+        "walk_in": "Enter your first name, last name and company, then sign: I will add you to the guest list of the event.",
+        "exit_search": "Type at least {count} letters of your first or last name, then tap Select next to your name.",
+        "exit_confirm": "Check that the name and the company are yours, then tap Check out.",
+        "done": "In a few seconds I will go back to the start by myself.",
+        "pair": "An administrator adds this tablet in Tablets, in the visitor register, and gets a code of 8 characters. Enter it here: it is valid for 10 minutes."
+      }
+    }
   }
 }

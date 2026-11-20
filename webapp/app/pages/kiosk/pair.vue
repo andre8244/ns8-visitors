@@ -7,6 +7,8 @@ definePageMeta({ layout: 'kiosk', middleware: 'kiosk' })
 const { t } = useI18n()
 const { fetch: fetchSession, user } = useUserSession()
 
+useMascot(() => ({ help: t('kiosk.mascot.help.pair') }))
+
 // Pairing replaces the session of an administrator in this browser
 const adminSession = computed(() => user.value?.kind === 'admin')
 

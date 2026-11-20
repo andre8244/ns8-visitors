@@ -17,6 +17,8 @@ const atHome = computed(() => route.path === '/kiosk' || route.path === '/kiosk/
 // The home page greets the visitor in the middle of the screen
 const atStart = computed(() => route.path === '/kiosk')
 
+const mascot = useMascotState()
+
 const { idle, reset } = useIdle(IDLE_MS)
 watch(idle, (isIdle) => {
   if (isIdle && !atHome.value) {
@@ -43,5 +45,8 @@ watch(idle, (isIdle) => {
       </button>
       <slot />
     </main>
+    <!-- Outside main: the pages rise with a transform, which would hold the
+    fixed mascot inside them -->
+    <KioskMascot v-bind="mascot" />
   </div>
 </template>

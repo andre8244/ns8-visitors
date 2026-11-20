@@ -26,6 +26,17 @@ async function checkOut() {
     saving.value = false
   }
 }
+
+useMascot(() => {
+  const sad = !!(selected.value ? error.value : searchError.value)
+  return {
+    mood: sad ? 'sad' : 'normal',
+    message: sad ? t('kiosk.mascot.sorry') : '',
+    help: selected.value
+      ? t('kiosk.mascot.help.exit_confirm')
+      : t('kiosk.mascot.help.exit_search', { count: SEARCH_MIN_LENGTH })
+  }
+})
 </script>
 
 <template>
@@ -33,6 +44,7 @@ async function checkOut() {
     v-if="done && selected"
     :title="t('kiosk.checked_out')"
     :description="t('kiosk.checked_out_description')"
+    check-out
   />
   <KioskPage v-else-if="selected" :title="t('kiosk.exit_title')">
     <div class="space-y-6">

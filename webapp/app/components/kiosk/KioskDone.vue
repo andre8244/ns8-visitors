@@ -6,8 +6,14 @@ import { useI18n } from 'vue-i18n'
 // Confirmation after a check-in or a check-out, then back to the home page
 const RETURN_MS = 6000
 
-defineProps<{ title: string; description: string }>()
+const props = defineProps<{ title: string; description: string; checkOut?: boolean }>()
 const { t } = useI18n()
+
+useMascot(() => ({
+  mood: props.checkOut ? 'bye' : 'happy',
+  message: props.checkOut ? t('kiosk.mascot.checked_out') : t('kiosk.mascot.checked_in'),
+  help: t('kiosk.mascot.help.done')
+}))
 
 function goHome() {
   navigateTo('/kiosk')
