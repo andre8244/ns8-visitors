@@ -8,10 +8,10 @@ import { useI18n } from 'vue-i18n'
 // must not find the data of the previous one
 const IDLE_MS = 60_000
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 
-useHead({ title: () => t('app.title'), htmlAttrs: { lang: 'it' } })
+useHead({ title: () => t('app.title'), htmlAttrs: { lang: locale } })
 
 const atHome = computed(() => route.path === '/kiosk' || route.path === '/kiosk/pair')
 // The home page greets the visitor in the middle of the screen

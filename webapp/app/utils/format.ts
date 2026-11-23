@@ -1,9 +1,9 @@
-const LOCALE = 'it-IT'
+import { intlLocale } from './locale'
 
-// Month as a word, as "17 nov 2026, 18:26": no doubt between day and month
+// Month as a word, as "17 nov 2026, 18:26" in Italian: no doubt between day and month
 export function formatDateTime(value: Date | string | null | undefined) {
   if (!value) return ''
-  return new Intl.DateTimeFormat(LOCALE, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+  return new Intl.DateTimeFormat(intlLocale.value, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 }
 
 // ISO 8601, as "2026-11-17 18:26": the format of the CSV export. Spreadsheets
@@ -18,13 +18,13 @@ export function formatDateTimeIso(value: Date | string | null | undefined) {
 
 export function formatTime(value: Date | string | null | undefined) {
   if (!value) return ''
-  return new Intl.DateTimeFormat(LOCALE, { timeStyle: 'short' }).format(new Date(value))
+  return new Intl.DateTimeFormat(intlLocale.value, { timeStyle: 'short' }).format(new Date(value))
 }
 
 // A YYYY-MM-DD day, without converting it through UTC
 export function formatDay(value: string) {
   const [y = 0, m = 1, d = 1] = value.split('-').map(Number)
-  return new Intl.DateTimeFormat(LOCALE, { dateStyle: 'medium' }).format(new Date(y, m - 1, d))
+  return new Intl.DateTimeFormat(intlLocale.value, { dateStyle: 'medium' }).format(new Date(y, m - 1, d))
 }
 
 export function formatDayRange(start: string, end: string) {
