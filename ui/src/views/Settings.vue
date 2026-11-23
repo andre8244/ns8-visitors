@@ -264,7 +264,12 @@ export default {
         label: domain,
         value: domain,
       }));
-      this.ldap_domain = config.ldap_domain;
+      // NsComboBox shows the value only when its options are already
+      // rendered: set it after the DOM update, as in the other modules.
+      // Not needed once NethServer/ns8-ui-lib#106 is released
+      this.$nextTick(() => {
+        this.ldap_domain = config.ldap_domain;
+      });
       this.admin_group = config.admin_group;
       this.ip_allowlist = config.ip_allowlist.join("\n");
       this.lets_encrypt = config.lets_encrypt;
