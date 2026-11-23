@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 export type KioskConfig = {
   deviceName: string
   theme: 'light' | 'dark'
+  mascot: boolean
   notice: { id: number; bodyMd: string } | null
   events: { id: number; name: string }[]
 }

@@ -112,7 +112,12 @@ describe('people', () => {
 describe('settings', () => {
   it('changes some settings, keeping the others', async () => {
     const response = await admin.patch('/api/admin/settings', { retentionMonths: 6 })
-    expect(response.data).toEqual({ retentionMonths: 6, autoCheckoutTime: '20:00', kioskTheme: 'light' })
+    expect(response.data).toEqual({
+      retentionMonths: 6,
+      autoCheckoutTime: '20:00',
+      kioskTheme: 'light',
+      kioskMascot: true
+    })
     expect((await admin.get('/api/admin/settings')).data.retentionMonths).toBe(6)
     expect(lastAudit('settings.update')!.details).toBe('{"retentionMonths":6}')
   })
@@ -123,7 +128,8 @@ describe('settings', () => {
     { retentionMonths: 1.5 },
     { autoCheckoutTime: '24:00' },
     { autoCheckoutTime: '8:00' },
-    { kioskTheme: 'blue' }
+    { kioskTheme: 'blue' },
+    { kioskMascot: 'yes' }
   ])('rejects %o', async (patch) => {
     expect((await admin.patch('/api/admin/settings', patch)).status).toBe(400)
   })

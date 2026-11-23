@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeButton, NeCard, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput } from '@nethesis/vue-components'
+import { NeButton, NeCard, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput, NeToggle } from '@nethesis/vue-components'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
 import type { Settings } from '~~/shared/types/admin'
@@ -8,7 +8,7 @@ const { t } = useI18n()
 const { api, errorText } = useApi()
 const { showSuccess } = useToasts()
 
-const form = ref({ retentionMonths: '', autoCheckoutTime: '', kioskTheme: 'light' })
+const form = ref({ retentionMonths: '', autoCheckoutTime: '', kioskTheme: 'light', kioskMascot: true })
 const errors = ref({ retentionMonths: '', autoCheckoutTime: '' })
 const loading = shallowRef(true)
 const loadError = shallowRef('')
@@ -24,7 +24,8 @@ function fill(settings: Settings) {
   form.value = {
     retentionMonths: String(settings.retentionMonths),
     autoCheckoutTime: settings.autoCheckoutTime,
-    kioskTheme: settings.kioskTheme
+    kioskTheme: settings.kioskTheme,
+    kioskMascot: settings.kioskMascot
   }
 }
 
@@ -56,7 +57,8 @@ async function save() {
     const body = {
       retentionMonths: Number(form.value.retentionMonths),
       autoCheckoutTime: form.value.autoCheckoutTime,
-      kioskTheme: form.value.kioskTheme
+      kioskTheme: form.value.kioskTheme,
+      kioskMascot: form.value.kioskMascot
     }
     fill(await api<Settings>('/api/admin/settings', { method: 'PATCH', body }))
     showSuccess(t('settings.saved'), t('settings.saved_description'))
@@ -103,6 +105,11 @@ async function save() {
             grid-style="grid-cols-2 gap-3"
             :disabled="saving"
           />
+          <!-- NeToggle has no helper text -->
+          <div>
+            <NeToggle v-model="form.kioskMascot" :label="t('settings.kiosk_mascot')" :disabled="saving" />
+            <p class="text-tertiary-neutral mt-2 text-sm">{{ t('settings.kiosk_mascot_helper') }}</p>
+          </div>
           <NeInlineNotification v-if="saveError" kind="error" :title="t('settings.cannot_save')" :description="saveError" />
         </div>
         <div class="mt-8 flex justify-end">

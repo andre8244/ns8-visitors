@@ -7,7 +7,9 @@ export const settingsSchema = z.object({
   // Open visits are closed automatically at this local time
   autoCheckoutTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
   // Theme of the tablet pages
-  kioskTheme: z.enum(['light', 'dark'])
+  kioskTheme: z.enum(['light', 'dark']),
+  // Nova, the mascot, on the tablet pages
+  kioskMascot: z.boolean()
 })
 
 type SettingsValues = z.infer<typeof settingsSchema>
@@ -15,7 +17,8 @@ type SettingsValues = z.infer<typeof settingsSchema>
 export const defaultSettings: SettingsValues = {
   retentionMonths: 12,
   autoCheckoutTime: '20:00',
-  kioskTheme: 'light'
+  kioskTheme: 'light',
+  kioskMascot: true
 }
 
 export function getSettings(): SettingsValues {

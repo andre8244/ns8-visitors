@@ -266,7 +266,7 @@
   },
   "settings": {
     "title": "Impostazioni",
-    "description": "Conservazione dei dati e uscita automatica.",
+    "description": "Conservazione dei dati, uscita automatica e tablet.",
     "retention": "Periodo di conservazione (mesi)",
     "retention_helper": "Visite, firme ed eventi più vecchi vengono eliminati automaticamente.",
     "enter_retention": "Inserisci un numero di mesi tra 1 e 120",
@@ -276,6 +276,8 @@
     "kiosk_theme": "Tema del tablet",
     "theme_light": "Chiaro",
     "theme_dark": "Scuro",
+    "kiosk_mascot": "Mascotte sul tablet",
+    "kiosk_mascot_helper": "Nova, il robot di Nethesis, accoglie i visitatori e, al tocco, spiega ogni pagina. Compare solo sugli schermi larghi, come un tablet in orizzontale.",
     "cannot_save": "Impossibile salvare le impostazioni",
     "cannot_load": "Impossibile caricare le impostazioni",
     "saved": "Impostazioni salvate",

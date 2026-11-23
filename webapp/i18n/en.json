@@ -266,7 +266,7 @@
   },
   "settings": {
     "title": "Settings",
-    "description": "Data retention and automatic check-out.",
+    "description": "Data retention, automatic check-out and tablet.",
     "retention": "Retention period (months)",
     "retention_helper": "Visits, signatures and events older than this are deleted automatically.",
     "enter_retention": "Enter a number of months between 1 and 120",
@@ -276,6 +276,8 @@
     "kiosk_theme": "Tablet theme",
     "theme_light": "Light",
     "theme_dark": "Dark",
+    "kiosk_mascot": "Mascot on the tablet",
+    "kiosk_mascot_helper": "Nova, the robot of Nethesis, greets the visitors and explains each page when tapped. It appears only on wide screens, such as a tablet held landscape.",
     "cannot_save": "Cannot save settings",
     "cannot_load": "Cannot load settings",
     "saved": "Settings saved",

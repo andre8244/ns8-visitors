@@ -105,7 +105,13 @@ describe('config', () => {
   it('gives the current notice, the theme and the events of today', async () => {
     const config = await kiosk.get('/api/kiosk/config')
     expect(config.status).toBe(200)
-    expect(config.data).toMatchObject({ deviceName: 'Ingresso', theme: 'light', notice: { id: noticeId } })
+    expect(config.data).toMatchObject({ deviceName: 'Ingresso', theme: 'light', mascot: true, notice: { id: noticeId } })
+  })
+
+  it('hides the mascot when the admin turns it off', async () => {
+    await admin.patch('/api/admin/settings', { kioskMascot: false })
+    expect((await kiosk.get('/api/kiosk/config')).data.mascot).toBe(false)
+    await admin.patch('/api/admin/settings', { kioskMascot: true })
   })
 
   it('keeps the light theme while the choice is hidden', async () => {

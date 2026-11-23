@@ -18,6 +18,10 @@ const atHome = computed(() => route.path === '/kiosk' || route.path === '/kiosk/
 const atStart = computed(() => route.path === '/kiosk')
 
 const mascot = useMascotState()
+const { config } = useKiosk()
+// As set by the admin, once the configuration is loaded. Before pairing
+// there is none: the mascot explains how to pair
+const showMascot = computed(() => (config.value ? config.value.mascot : route.path === '/kiosk/pair'))
 
 const { idle, reset } = useIdle(IDLE_MS)
 watch(idle, (isIdle) => {
@@ -47,6 +51,6 @@ watch(idle, (isIdle) => {
     </main>
     <!-- Outside main: the pages rise with a transform, which would hold the
     fixed mascot inside them -->
-    <KioskMascot v-bind="mascot" />
+    <KioskMascot v-if="showMascot" v-bind="mascot" />
   </div>
 </template>

@@ -64,4 +64,5 @@ export type Settings = {
   retentionMonths: number
   autoCheckoutTime: string
   kioskTheme: 'light' | 'dark'
+  kioskMascot: boolean
 }
