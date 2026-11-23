@@ -2,7 +2,8 @@
     "common": {
         "required": "Required",
         "work_in_progress": "Work in progress",
-        "processing": "Processing..."
+        "processing": "Processing...",
+        "eg_value": "e.g. {value}"
     },
     "status": {
         "title": "Status",
@@ -27,6 +28,9 @@
         "host": "Hostname",
         "ldap_domain": "User domain",
         "choose_ldap_domain": "Choose the user domain",
+        "no_user_domain_title": "No user domain",
+        "no_user_domain_description": "Create a user domain in Domains and users, then choose it here.",
+        "go_to_domains_and_users": "Go to Domains and users",
         "admin_group": "Admin group",
         "admin_group_helper": "Members of this LDAP group can sign in to the visitor register and manage it.",
         "ip_allowlist": "Allowed networks",
@@ -40,7 +44,6 @@
         "format": "Invalid format",
         "pattern": "Invalid format",
         "required": "Required",
-        "host_placeholder": "e.g. visitors.example.org",
         "ldap_domain_not_found": "Choose an existing user domain"
     },
     "about": {

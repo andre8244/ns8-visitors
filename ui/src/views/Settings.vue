@@ -21,16 +21,29 @@
     </cv-row>
     <cv-row>
       <cv-column>
-        <cv-tile light>
+        <cv-tile light class="max-40">
           <cv-form @submit.prevent="configureModule">
             <NsTextInput
               :label="$t('settings.host')"
-              :placeholder="$t('settings.host_placeholder')"
+              :placeholder="
+                $t('common.eg_value', { value: 'visitors.example.org' })
+              "
               v-model.trim="host"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="$t(error.host)"
               ref="host"
             ></NsTextInput>
+            <!-- Notifications about a field go above it -->
+            <NsInlineNotification
+              v-if="noUserDomains"
+              class="field-notification"
+              kind="info"
+              :title="$t('settings.no_user_domain_title')"
+              :description="$t('settings.no_user_domain_description')"
+              :actionLabel="$t('settings.go_to_domains_and_users')"
+              @action="goToDomainsAndUsers"
+              :showCloseButton="false"
+            />
             <NsComboBox
               v-model="ldap_domain"
               :autoFilter="true"
@@ -51,22 +64,23 @@
               :invalid-message="$t(error.admin_group)"
               ref="admin_group"
             ></NsTextInput>
-            <cv-text-area
-              :label="$t('settings.ip_allowlist')"
-              :helper-text="$t('settings.ip_allowlist_helper')"
-              placeholder="192.168.1.0/24"
-              v-model="ip_allowlist"
-              :disabled="loading.getConfiguration || loading.configureModule"
-              :invalid-message="$t(error.ip_allowlist)"
-              ref="ip_allowlist"
-            ></cv-text-area>
             <NsInlineNotification
               v-if="isAllowlistEmpty"
+              class="field-notification"
               kind="warning"
               :title="$t('settings.no_ip_allowlist_title')"
               :description="$t('settings.no_ip_allowlist_description')"
               :showCloseButton="false"
             />
+            <cv-text-area
+              :label="$t('settings.ip_allowlist')"
+              :helper-text="$t('settings.ip_allowlist_helper')"
+              :placeholder="$t('common.eg_value', { value: '192.168.1.0/24' })"
+              v-model="ip_allowlist"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              :invalid-message="$t(error.ip_allowlist)"
+              ref="ip_allowlist"
+            ></cv-text-area>
             <NsToggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -169,6 +183,14 @@ export default {
   },
   computed: {
     ...mapState(["instanceName", "core", "appName"]),
+    // The module needs a user domain, created in the cluster beforehand
+    noUserDomains() {
+      return (
+        !this.loading.getConfiguration &&
+        !this.error.getConfiguration &&
+        !this.ldap_domain_list.length
+      );
+    },
     isAllowlistEmpty() {
       return !this.loading.getConfiguration && !this.ip_allowlist.trim();
     },
@@ -187,6 +209,9 @@ export default {
     this.getConfiguration();
   },
   methods: {
+    goToDomainsAndUsers() {
+      this.core.$router.push("/domains");
+    },
     async getConfiguration() {
       this.loading.getConfiguration = true;
       this.error.getConfiguration = "";
@@ -359,4 +384,15 @@ export default {
 
 <style scoped lang="scss">
 @import "../styles/carbon-utils";
+
+// A notification about the field below it stays close to that field, and
+// apart from the field above. Two classes: NsInlineNotification sets its
+// own margin with the same specificity
+.field-notification.cv-inline-notification {
+  margin-bottom: $spacing-05;
+}
+
+.max-40 {
+  max-width: 40rem;
+}
 </style>

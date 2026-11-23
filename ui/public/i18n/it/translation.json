@@ -2,7 +2,8 @@
     "common": {
         "required": "Obbligatorio",
         "processing": "In elaborazione…",
-        "work_in_progress": "In lavorazione"
+        "work_in_progress": "In lavorazione",
+        "eg_value": "es. {value}"
     },
     "status": {
         "node": "Nodo",
@@ -25,9 +26,11 @@
         "title": "Impostazioni",
         "configure_instance": "Configura {instance}",
         "host": "Nome host",
-        "host_placeholder": "es. visitatori.example.org",
         "ldap_domain": "Dominio utenti",
         "choose_ldap_domain": "Scegli il dominio utenti",
+        "no_user_domain_title": "Nessun dominio utenti",
+        "no_user_domain_description": "Crea un dominio utenti in Domini e utenti, poi sceglilo qui.",
+        "go_to_domains_and_users": "Vai a Domini e utenti",
         "ldap_domain_not_found": "Scegli un dominio utenti esistente",
         "admin_group": "Gruppo degli amministratori",
         "admin_group_helper": "I membri di questo gruppo LDAP possono accedere al registro visitatori e gestirlo.",
