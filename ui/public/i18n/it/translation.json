@@ -19,7 +19,11 @@
         "app_instance": "Istanza app",
         "app_volumes": "Volume app|Volumi app",
         "installation_node": "Nodo di installazione",
-        "mount": "Percorso di mount"
+        "mount": "Percorso di mount",
+        "visitor_register": "Registro visitatori",
+        "not_configured": "Non configurato",
+        "open_visitor_register": "Apri registro visitatori",
+        "configure": "Configura"
     },
     "settings": {
         "save": "Salva",
@@ -56,7 +60,8 @@
         "network_timeout": "Timeout di rete",
         "generic_error": "Qualcosa è andato storto",
         "401": "Autenticazione non valida",
-        "403": "Operazione non autorizzata"
+        "403": "Operazione non autorizzata",
+        "cannot_retrieve_configuration": "Impossibile recuperare la configurazione"
     },
     "action": {
         "configure-module": "Configura modulo",

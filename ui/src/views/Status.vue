@@ -39,7 +39,41 @@
         />
       </cv-column>
     </cv-row>
-    <cv-row>
+    <cv-row class="equal-height-cards">
+      <cv-column :md="4" :max="4">
+        <NsInfoCard
+          light
+          :title="$t('status.visitor_register')"
+          :description="host || $t('status.not_configured')"
+          :icon="Wikis32"
+          :loading="loading.getConfiguration"
+          :isErrorShown="!!error.getConfiguration"
+          :errorTitle="$t('error.cannot_retrieve_configuration')"
+          :errorDescription="error.getConfiguration"
+          class="min-height-card"
+        >
+          <template slot="content">
+            <NsButton
+              v-if="host"
+              kind="ghost"
+              :icon="Launch20"
+              :disabled="loading.getConfiguration"
+              @click="goToWebapp"
+            >
+              {{ $t("status.open_visitor_register") }}
+            </NsButton>
+            <NsButton
+              v-else
+              kind="ghost"
+              :icon="ArrowRight20"
+              :disabled="loading.getConfiguration"
+              @click="goToAppPage(instanceName, 'settings')"
+            >
+              {{ $t("status.configure") }}
+            </NsButton>
+          </template>
+        </NsInfoCard>
+      </cv-column>
       <cv-column :md="4" :max="4">
         <NsInfoCard
           light
@@ -111,7 +145,10 @@
         <h4>{{ $tc("status.services", 2) }}</h4>
       </cv-column>
     </cv-row>
-    <cv-row v-if="!loading.getStatus">
+    <cv-row
+      v-if="!loading.getStatus"
+      :class="{ 'equal-height-cards': status.services.length }"
+    >
       <cv-column v-if="!status.services.length">
         <cv-tile light>
           <NsEmptyState :title="$t('status.no_services')"> </NsEmptyState>
@@ -291,14 +328,17 @@ export default {
         images: [],
         volumes: [],
       },
+      host: "",
       backupRepositories: [],
       backups: [],
       loading: {
+        getConfiguration: false,
         getStatus: false,
         listBackupRepositories: false,
         listBackups: false,
       },
       error: {
+        getConfiguration: "",
         getStatus: "",
         listBackupRepositories: "",
         listBackups: "",
@@ -346,10 +386,61 @@ export default {
     clearTimeout(this.redirectTimeout);
   },
   created() {
+    this.getConfiguration();
     this.getStatus();
     this.listBackupRepositories();
   },
   methods: {
+    // The admin pages: they ask to sign in first
+    goToWebapp() {
+      window.open(`https://${this.host}/admin`, "_blank");
+    },
+    async getConfiguration() {
+      this.loading.getConfiguration = true;
+      this.error.getConfiguration = "";
+      const taskAction = "get-configuration";
+      const eventId = this.getUuid();
+
+      // register to task error
+      this.core.$root.$once(
+        `${taskAction}-aborted-${eventId}`,
+        this.getConfigurationAborted
+      );
+
+      // register to task completion
+      this.core.$root.$once(
+        `${taskAction}-completed-${eventId}`,
+        this.getConfigurationCompleted
+      );
+
+      const res = await to(
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          extra: {
+            title: this.$t("action." + taskAction),
+            isNotificationHidden: true,
+            eventId,
+          },
+        })
+      );
+      const err = res[0];
+
+      if (err) {
+        console.error(`error creating task ${taskAction}`, err);
+        this.error.getConfiguration = this.getErrorMessage(err);
+        this.loading.getConfiguration = false;
+        return;
+      }
+    },
+    getConfigurationAborted(taskResult, taskContext) {
+      console.error(`${taskContext.action} aborted`, taskResult);
+      this.error.getConfiguration = this.$t("error.generic_error");
+      this.loading.getConfiguration = false;
+    },
+    getConfigurationCompleted(taskContext, taskResult) {
+      this.host = taskResult.output.host;
+      this.loading.getConfiguration = false;
+    },
     async getStatus() {
       this.loading.getStatus = true;
       this.error.getStatus = "";
@@ -511,6 +602,36 @@ export default {
 
 <style scoped lang="scss">
 @import "../styles/carbon-utils";
+
+// All the cards have the same height: every line of the grid is as tall
+// as its tallest card, and the minimum height, that of the backup and logs
+// cards, keeps the services as tall as the cards above them. Columns as the
+// Carbon ones of the cards: one, two from md and four from max
+.equal-height-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+
+  @media (min-width: 42rem) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 99rem) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  > .bx--col,
+  > [class*="bx--col-"] {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+
+    > * {
+      flex: 1;
+      min-height: 13.25rem;
+    }
+  }
+}
 
 .break-word {
   word-wrap: break-word;
