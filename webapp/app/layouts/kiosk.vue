@@ -22,6 +22,9 @@ const { config } = useKiosk()
 // As set by the admin, once the configuration is loaded. Before pairing
 // there is none: the mascot explains how to pair
 const showMascot = computed(() => (config.value ? config.value.mascot : route.path === '/kiosk/pair'))
+// Below the content on narrow screens, except on the pages with a form,
+// where it waits in a corner: room for the robot and its bubble
+const mascotRoom = computed(() => showMascot.value && !mascot.value.compact)
 
 const { idle, reset } = useIdle(IDLE_MS)
 watch(idle, (isIdle) => {
@@ -36,7 +39,12 @@ watch(idle, (isIdle) => {
   <!-- The tablet has the color of the brand, in both themes, and no top bar:
   the home page greets the visitor, the other pages start with the way back -->
   <div class="bg-primary-600 text-primary-neutral min-h-screen">
-    <main :class="['mx-auto max-w-3xl px-6 py-8', { 'flex min-h-screen flex-col justify-center': atStart }]">
+    <main
+      :class="[
+        'mx-auto max-w-3xl px-6 py-8',
+        { 'flex min-h-screen flex-col justify-center': atStart, 'pb-56 lg:pb-8': mascotRoom }
+      ]"
+    >
       <!-- Custom markup: NeButton has no kind for a colored background -->
       <button
         v-if="!atHome"

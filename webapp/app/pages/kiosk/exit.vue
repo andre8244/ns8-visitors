@@ -34,7 +34,8 @@ useMascot(() => {
     message: sad ? t('kiosk.mascot.sorry') : '',
     help: selected.value
       ? t('kiosk.mascot.help.exit_confirm')
-      : t('kiosk.mascot.help.exit_search', { count: SEARCH_MIN_LENGTH })
+      : t('kiosk.mascot.help.exit_search', { count: SEARCH_MIN_LENGTH }),
+    compact: true
   }
 })
 </script>

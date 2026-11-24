@@ -63,7 +63,7 @@ function mascotHelp() {
 useMascot(() => {
   // An error of the step on screen: the check-in of a guest or a walk-in, else the search
   const sad = !!(guest.value || walkIn.value ? error.value : eventId.value && searchError.value)
-  return { mood: sad ? 'sad' : 'normal', message: sad ? t('kiosk.mascot.sorry') : '', help: mascotHelp() }
+  return { mood: sad ? 'sad' : 'normal', message: sad ? t('kiosk.mascot.sorry') : '', help: mascotHelp(), compact: true }
 })
 </script>
 

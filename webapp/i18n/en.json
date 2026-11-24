@@ -277,7 +277,7 @@
     "theme_light": "Light",
     "theme_dark": "Dark",
     "kiosk_mascot": "Mascot on the tablet",
-    "kiosk_mascot_helper": "Nova, the robot of Nethesis, greets the visitors and explains each page when tapped. It appears only on wide screens, such as a tablet held landscape.",
+    "kiosk_mascot_helper": "Nova, the robot of Nethesis, greets the visitors and explains each page when tapped. On narrow screens, such as a tablet held portrait, it waits in a corner on the pages with a form, showing only its head.",
     "cannot_save": "Cannot save settings",
     "cannot_load": "Cannot load settings",
     "saved": "Settings saved",

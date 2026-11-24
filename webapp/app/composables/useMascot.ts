@@ -7,6 +7,9 @@ export interface MascotState {
   message?: string
   // Shown when the visitor taps the mascot: what to do on this page
   help?: string
+  // A page with a form: on narrow screens the mascot shrinks to its head,
+  // not to cover the fields
+  compact?: boolean
 }
 
 const useStack = createGlobalState(() => shallowRef<Array<() => MascotState>>([]))

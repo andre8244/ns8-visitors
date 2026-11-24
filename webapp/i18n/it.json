@@ -277,7 +277,7 @@
     "theme_light": "Chiaro",
     "theme_dark": "Scuro",
     "kiosk_mascot": "Mascotte sul tablet",
-    "kiosk_mascot_helper": "Nova, il robot di Nethesis, accoglie i visitatori e, al tocco, spiega ogni pagina. Compare solo sugli schermi larghi, come un tablet in orizzontale.",
+    "kiosk_mascot_helper": "Nova, il robot di Nethesis, accoglie i visitatori e, al tocco, spiega ogni pagina. Sugli schermi stretti, come un tablet in verticale, nelle pagine con un modulo aspetta in un angolo, mostrando solo la testa.",
     "cannot_save": "Impossibile salvare le impostazioni",
     "cannot_load": "Impossibile caricare le impostazioni",
     "saved": "Impostazioni salvate",

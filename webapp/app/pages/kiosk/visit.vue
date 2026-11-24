@@ -28,7 +28,8 @@ async function checkIn({ person, signature }: CheckInSubmit) {
 useMascot(() => ({
   mood: error.value ? 'sad' : 'normal',
   message: error.value ? t('kiosk.mascot.sorry') : '',
-  help: t('kiosk.mascot.help.visit')
+  help: t('kiosk.mascot.help.visit'),
+  compact: true
 }))
 </script>
 

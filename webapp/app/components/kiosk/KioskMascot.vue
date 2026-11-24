@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside, useIdle, useIntervalFn, useTimeoutFn } from '@vueuse/core'
+import { onClickOutside, useIdle, useIntervalFn, useMediaQuery, useTimeoutFn } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 // Prototype of Nova, the Nethesis mascot, drawn by hand in layers so the
@@ -19,8 +19,10 @@ const props = withDefaults(
     message?: string
     // What to do on the page, in the bubble after a tap
     help?: string
+    // A page with a form, see `small`
+    compact?: boolean
   }>(),
-  { mood: 'normal', message: '', help: '' }
+  { mood: 'normal', message: '', help: '', compact: false }
 )
 
 const WAVE_EVERY_MS = { normal: 20_000, bye: 3_000 } as const
@@ -38,8 +40,17 @@ const helpOpen = shallowRef(false)
 const root = useTemplateRef('root')
 const bubbleId = useId()
 
-// No waving while it reads the help with the visitor
-const canWave = computed(() => (props.mood === 'normal' || props.mood === 'bye') && !helpOpen.value)
+// Wide screens, as a tablet held landscape, have room beside the content.
+// On the others, on a page with a form, the mascot waits in the top-right
+// corner, far from the buttons and the keyboard at the bottom, with only
+// its head: a tap shows the whole robot with the help, and a touch
+// elsewhere, as on a field, shrinks it again
+const wide = useMediaQuery('(min-width: 1024px)')
+const small = computed(() => props.compact && !wide.value)
+const headOnly = computed(() => small.value && !helpOpen.value)
+
+// No waving while it reads the help with the visitor, nor in the corner
+const canWave = computed(() => (props.mood === 'normal' || props.mood === 'bye') && !helpOpen.value && !small.value)
 const bubble = computed(() => (helpOpen.value ? props.help : props.message))
 
 function wave() {
@@ -94,22 +105,40 @@ function onAnimationEnd(event: AnimationEvent) {
 }
 </script>
 
-<!-- Fixed in the bottom-left corner, only where it fits beside the content,
-as on a tablet held landscape. The help bubble is wider and may cover the
-content: it closes at the next touch -->
+<!-- Fixed on the right, as the head alone: in the bottom corner, beside the
+content on wide screens and below it on the others, where the layout leaves
+it room. In the top corner on the pages with a form, see `small`. The help
+bubble is wider and may cover the content: it closes at the next touch -->
 <template>
-  <div ref="root" class="motion-safe:animate-rise rise-delay-2 pointer-events-none fixed bottom-4 left-4 z-10 hidden flex-col items-start lg:flex">
+  <div
+    ref="root"
+    :class="[
+      'motion-safe:animate-rise rise-delay-2 pointer-events-none fixed right-4 z-10 flex items-end',
+      small ? 'top-4 flex-col-reverse' : 'bottom-4 flex-col'
+    ]"
+  >
+    <!-- Part of the drawing, as the robot: the same colors in both themes. A
+    light yellow with a gray border, apart from the white cards it may cover -->
     <p
       v-if="bubble"
       :id="bubbleId"
       :key="bubble"
       :class="[
-        'motion-safe:animate-rise bg-elevation-0 text-primary-neutral pointer-events-auto relative mb-3 rounded-md px-3 py-2 text-sm font-medium shadow-sm',
+        'motion-safe:animate-rise pointer-events-auto relative rounded-md border border-gray-300 bg-yellow-50 px-3 py-2 text-sm font-medium text-gray-900 shadow-sm',
+        small ? 'mt-3' : 'mb-3',
         helpOpen ? 'w-64' : 'w-32'
       ]"
     >
       {{ bubble }}
-      <span class="bg-elevation-0 absolute -bottom-1.5 left-12 h-3 w-3 rotate-45" aria-hidden="true" />
+      <!-- The tip points to the head, with the border on its outer sides -->
+      <span
+        :class="[
+          'absolute h-3 w-3 rotate-45 border-gray-300 bg-yellow-50',
+          small ? '-top-1.5 border-t border-l' : '-bottom-1.5 border-r border-b',
+          headOnly ? 'right-4' : 'right-12'
+        ]"
+        aria-hidden="true"
+      />
     </p>
     <!-- Custom markup: the robot itself is the button -->
     <button
@@ -120,9 +149,15 @@ content: it closes at the next touch -->
       class="focus-visible:ring-offset-primary-600 pointer-events-auto cursor-pointer rounded-md focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none"
       @click="onTap"
     >
+      <!-- Only the head: the same drawing, framed on the head -->
       <svg
-        viewBox="0 0 160 220"
-        :class="['mascot block w-28 overflow-visible', `mood-${mood}`, { moving: !idle, jumping, hop, reading: helpOpen }]"
+        :viewBox="headOnly ? '30 0 100 96' : '0 0 160 220'"
+        :class="[
+          'mascot block',
+          headOnly ? 'w-14 overflow-hidden' : 'w-28 overflow-visible',
+          `mood-${mood}`,
+          { moving: !idle, jumping, hop, reading: helpOpen }
+        ]"
         aria-hidden="true"
         @animationend="onAnimationEnd"
       >
@@ -151,15 +186,16 @@ content: it closes at the next touch -->
             <path d="M70 140 v-8 a7 7 0 0 1 14 0 v8" class="fill-none stroke-white" stroke-width="3.5" stroke-linecap="round" />
             <path d="M89 123 l-1 5" class="stroke-white" stroke-width="3" stroke-linecap="round" />
 
-            <!-- Left arm -->
-            <g class="arm-left">
+            <!-- Left arm, the one that waves: towards the content, as the
+            robot stands on the right of the screen -->
+            <g :class="['arm-left', { waving }]">
               <rect x="31" y="108" width="14" height="46" rx="6" class="fill-gray-300" />
               <circle cx="38" cy="157" r="6.5" class="fill-primary-400" />
             </g>
             <circle cx="40" cy="110" r="7" class="fill-primary-400" />
 
-            <!-- Right arm, the one that waves -->
-            <g :class="['arm-right', { waving }]">
+            <!-- Right arm -->
+            <g class="arm-right">
               <rect x="111" y="108" width="14" height="46" rx="6" class="fill-gray-300" />
               <circle cx="118" cy="157" r="6.5" class="fill-primary-400" />
             </g>
@@ -279,7 +315,7 @@ content: it closes at the next touch -->
     transition: opacity 0.3s;
   }
 
-  .moving .arm-right.waving {
+  .moving .arm-left.waving {
     animation: wave 2.4s ease-in-out;
   }
 
@@ -344,16 +380,16 @@ content: it closes at the next touch -->
 @keyframes wave {
   0%,
   100% {
-    transform: rotate(-8deg);
+    transform: rotate(8deg);
   }
   20%,
   50%,
   80% {
-    transform: rotate(-150deg);
+    transform: rotate(150deg);
   }
   35%,
   65% {
-    transform: rotate(-125deg);
+    transform: rotate(125deg);
   }
 }
 
