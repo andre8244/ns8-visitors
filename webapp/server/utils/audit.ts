@@ -4,7 +4,7 @@ import type { UserSession } from '#auth-utils'
 // must not keep what the retention job deletes. A null session is the
 // application itself (automatic jobs).
 export function logAudit(
-  session: UserSession | null,
+  session: Pick<UserSession, 'user' | 'via'> | null,
   entry: { action: string; visitId?: number; eventId?: number; deviceId?: number; details?: unknown }
 ) {
   useDb()

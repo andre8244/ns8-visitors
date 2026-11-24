@@ -40,10 +40,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, statusMessage: 'User not enabled' })
   }
 
-  await replaceUserSession(event, {
-    user: { kind: 'admin', name: ldapUser.name, username },
-    via: 'ldap',
+  const session = {
+    user: { kind: 'admin' as const, name: ldapUser.name, username },
+    via: 'ldap' as const,
     signedInAt: Date.now()
-  })
+  }
+  await replaceUserSession(event, session)
+  logAudit(session, { action: 'auth.sign_in' })
   return { kind: 'admin' }
 })

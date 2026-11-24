@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { startServer, type Client, type TestServer } from './server'
+import { Client, startServer, type TestServer } from './server'
 
 let server: TestServer
 let admin: Client
@@ -76,6 +76,52 @@ describe('sessions', () => {
 
   it('gives an admin no access to the tablet API', async () => {
     expect((await admin.get('/api/kiosk/config')).status).toBe(403)
+  })
+})
+
+describe('requests', () => {
+  // The admin cookie, sent from a page with the given headers
+  function from(headers: Record<string, string>) {
+    const client = new Client(server.url, headers)
+    client.cookie = admin.cookie
+    return client
+  }
+
+  it('refuses changes from a page of another origin, even of the same site', async () => {
+    expect((await from({ 'sec-fetch-site': 'same-site' }).post('/api/admin/devices', { name: 'X' })).status).toBe(403)
+    expect((await from({ 'sec-fetch-site': 'cross-site' }).post('/api/admin/devices', { name: 'X' })).status).toBe(403)
+    expect((await from({ origin: 'https://other.example.org' }).post('/api/admin/devices', { name: 'X' })).status).toBe(403)
+    // Reading is allowed: the browser does not give the response to the other page
+    expect((await from({ 'sec-fetch-site': 'cross-site' }).get('/api/admin/devices')).status).toBe(200)
+  })
+
+  it('accepts changes from the page of the application', async () => {
+    expect((await from({ 'sec-fetch-site': 'same-origin' }).post('/api/admin/devices', { name: 'A' })).status).toBe(200)
+    const origin = new URL(server.url).origin
+    expect((await from({ origin }).post('/api/admin/devices', { name: 'B' })).status).toBe(200)
+  })
+
+  it('refuses a body larger than 1 MB before reading it', async () => {
+    const response = await server.client().post('/api/auth/login', { username: 'mario', password: 'x'.repeat(1024 * 1024) })
+    expect(response.status).toBe(413)
+  })
+})
+
+describe('admin session', () => {
+  it('goes on when LDAP cannot confirm the admin after an hour', async () => {
+    const client = await server.admin({ signedInDaysAgo: 0.1 })
+    const before = client.cookie
+    expect((await client.get('/api/admin/settings')).status).toBe(200)
+    // Sealed again with the time of the check: the next check is an hour later
+    expect(client.cookie).not.toBe(before)
+    expect(server.output()).toContain('LDAP check of an admin session failed')
+  })
+
+  it('records the sign-out in the audit log', async () => {
+    const client = await server.admin()
+    expect((await client.delete('/api/_auth/session')).status).toBe(200)
+    const row = server.db().prepare("SELECT actor, via FROM audit_log WHERE action = 'auth.sign_out'").get()
+    expect(row).toEqual({ actor: 'test.admin', via: 'ldap' })
   })
 })
 

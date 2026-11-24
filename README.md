@@ -90,13 +90,17 @@ flowchart TB
   time and deletes the data older than the retention period.
 - **Access**:
   - Admins sign in against LDAP (`ldapts`) and must belong to the admin
-    group. The session lasts 14 days.
+    group. The session lasts 14 days; every hour LDAP confirms that the
+    user still exists, is enabled and belongs to the group, else the
+    session ends.
   - A tablet is paired with a single-use code and can call only the tablet
     API. The pairing lasts until an admin revokes the tablet.
-  - Both sessions are sealed cookies of `nuxt-auth-utils`. Logins and
-    tablet searches are rate limited, the responses carry security headers
-    with a Content Security Policy, and the audit log records changes,
-    exports and viewed signatures.
+  - Both sessions are sealed cookies of `nuxt-auth-utils`. Changes through
+    the API must come from the page of the application itself (checked with
+    `Sec-Fetch-Site` or `Origin`), and request bodies are limited to 1 MB.
+    Logins and tablet searches are rate limited, the responses carry
+    security headers with a Content Security Policy, and the audit log
+    records sign-ins and sign-outs, changes, exports and viewed signatures.
 - **Tests and CI**: unit tests and API tests on the built server with
   Vitest, module tests on NS8 with Robot Framework. GitHub Actions run the
   tests and publish both images to ghcr.io.
