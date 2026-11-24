@@ -10,6 +10,8 @@ definePageMeta({ layout: 'kiosk', middleware: 'kiosk' })
 const RELOAD_MS = 5 * 60_000
 
 const { t } = useI18n()
+// The language selector, only in development
+const dev = import.meta.dev
 const { config, loadConfig, errorText } = useKiosk()
 const error = shallowRef('')
 
@@ -35,6 +37,8 @@ useMascot(() => ({
 
 <template>
   <div>
+    <!-- In the top-right corner, apart from the choices of the visitor -->
+    <KioskLanguage v-if="dev" class="fixed top-4 right-4 z-10" />
     <!-- Larger than the h1 of NeHeading: the greeting of the entrance -->
     <h1 class="motion-safe:animate-rise mt-4 mb-10 text-center text-4xl font-medium text-white sm:text-5xl">{{ t('kiosk.welcome') }}</h1>
     <NeInlineNotification v-if="error" kind="error" :title="t('kiosk.cannot_load')" :description="error" class="mb-6" />

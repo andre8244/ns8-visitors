@@ -173,7 +173,9 @@ the application with `pnpm dev --host` and open
 `http://<computer address>:3000/kiosk`. To try them on the same
 computer, open http://localhost:3000/kiosk in a private window or in
 another browser, so the pairing does not sign you out of the admin
-pages.
+pages. The pages follow the language of the browser; in development
+only, the home page of the tablet also has a selector in the top-right
+corner, to try Italian and English.
 
 To try the pages with some data, fill the development database with
 `pnpm dev:seed`: visits of the last three months, some still in the

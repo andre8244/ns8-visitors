@@ -285,6 +285,7 @@
   },
   "kiosk": {
     "welcome": "Welcome to Nethesis",
+    "language": "Language",
     "visit_title": "Check in as a visitor",
     "visit_description": "You are visiting Nethesis.",
     "event_title": "Check in to an event",

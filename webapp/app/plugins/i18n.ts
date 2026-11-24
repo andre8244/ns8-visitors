@@ -3,8 +3,9 @@ import { createI18n } from 'vue-i18n'
 import en from '../../i18n/en.json'
 import it from '../../i18n/it.json'
 
-// The interface follows the language of the browser. English is the source
-// language of the texts and the fallback for missing keys
+// The interface follows the language of the browser, or the one chosen with
+// the selector of development. English is the source language of the texts
+// and the fallback for missing keys
 export default defineNuxtPlugin((nuxtApp) => {
   const languages = usePreferredLanguages()
   const i18n = createI18n({
@@ -14,9 +15,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     messages: { en, it }
   })
   watchEffect(() => {
-    const { locale, tag } = pickLocale(languages.value)
+    const picked = pickLocale(languages.value)
+    const locale = localeOverride.value ?? picked.locale
     i18n.global.locale.value = locale
-    intlLocale.value = tag
+    // The regional format of the browser, when its language is the same
+    intlLocale.value = locale === picked.locale ? picked.tag : locale
   })
   nuxtApp.vueApp.use(i18n)
 })
