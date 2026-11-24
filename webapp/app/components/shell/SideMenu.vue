@@ -6,6 +6,7 @@ import {
   faFileShield,
   faGear,
   faHouse,
+  faList,
   faTabletScreenButton
 } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
@@ -19,6 +20,7 @@ const items = computed(() => [
   { to: '/admin/events', label: t('nav.events'), icon: faCalendarDay },
   { to: '/admin/notice', label: t('nav.notice'), icon: faFileShield },
   { to: '/admin/devices', label: t('nav.devices'), icon: faTabletScreenButton },
+  { to: '/admin/audit', label: t('nav.audit'), icon: faList },
   { to: '/admin/settings', label: t('nav.settings'), icon: faGear }
 ])
 

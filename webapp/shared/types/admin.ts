@@ -66,3 +66,19 @@ export type Settings = {
   kioskTheme: 'light' | 'dark'
   kioskMascot: boolean
 }
+
+export type AuditEntry = {
+  id: number
+  at: string
+  // The user name of an admin, the name of a tablet, "system" for the
+  // application itself
+  actor: string
+  via: 'ldap' | 'kiosk' | 'system'
+  action: string
+  visitId: number | null
+  eventId: number | null
+  eventName: string | null
+  deviceId: number | null
+  deviceName: string | null
+  details: Record<string, unknown> | null
+}

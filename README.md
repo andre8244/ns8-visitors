@@ -11,7 +11,8 @@ used on a tablet at the office entrance.
   privacy notice versions, the paired tablets and the register.
 
 Data older than the retention period (12 months by default) is deleted
-automatically. Every admin action is recorded in an audit log.
+automatically. Every admin action is recorded in an audit log, which the
+admins read in the Audit log page.
 
 ## Tablet setup
 

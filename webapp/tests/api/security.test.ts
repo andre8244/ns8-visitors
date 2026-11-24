@@ -117,6 +117,22 @@ describe('admin session', () => {
     expect(server.output()).toContain('LDAP check of an admin session failed')
   })
 
+  it('shows the audit log to admins only, with its filters', async () => {
+    expect((await server.client().get('/api/admin/audit')).status).toBe(401)
+    const kiosk = await server.kiosk(admin, 'Audit tablet')
+    expect((await kiosk.get('/api/admin/audit')).status).toBe(403)
+    const all = await admin.get('/api/admin/audit?pageSize=100')
+    expect(all.status).toBe(200)
+    expect(all.data.actors).toContain('test.admin')
+    const created = await admin.get('/api/admin/audit?action=device.create&via=ldap')
+    expect(created.data.entries.length).toBeGreaterThan(0)
+    for (const entry of created.data.entries) {
+      expect(entry).toMatchObject({ action: 'device.create', via: 'ldap', actor: 'test.admin' })
+    }
+    expect(created.data.entries.map((entry: { deviceName: string }) => entry.deviceName)).toContain('Audit tablet')
+    expect((await admin.get('/api/admin/audit?action=Drop%20table')).status).toBe(400)
+  })
+
   it('records the sign-out in the audit log', async () => {
     const client = await server.admin()
     expect((await client.delete('/api/_auth/session')).status).toBe(200)
