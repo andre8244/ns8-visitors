@@ -53,6 +53,7 @@
   },
   "nav": {
     "label": "Main menu",
+    "dashboard": "Dashboard",
     "present": "Present",
     "register": "Register",
     "events": "Events",
@@ -142,6 +143,16 @@
     "cannot_delete_person": "Cannot delete personal data",
     "person_deleted": "Personal data deleted",
     "person_deleted_description": "The personal data of {name} has been deleted"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "present": "Visitors in the office",
+    "visits_today": "Visits today",
+    "visits_last_30_days": "Visits in the last 30 days",
+    "events_today": "Events today",
+    "upcoming_events": "Upcoming events",
+    "paired_tablets": "Paired tablets",
+    "cannot_load": "Cannot load dashboard"
   },
   "present": {
     "title": "Present",

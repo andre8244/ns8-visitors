@@ -7,7 +7,8 @@ used on a tablet at the office entrance.
   company and signs with a finger. Guests of an event, prepared in advance,
   search their name and sign. The tablet is paired by an admin and can only
   register check-ins and check-outs.
-- **admin**: members of an LDAP group manage events and guest lists, the
+- **admin**: members of an LDAP group see a dashboard with the counts of
+  visits, events and tablets, and manage events and guest lists, the
   privacy notice versions, the paired tablets and the register. On the
   first start the application publishes a default notice, in Italian,
   that the admins can replace with a new version.

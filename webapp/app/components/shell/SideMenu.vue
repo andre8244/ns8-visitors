@@ -7,7 +7,8 @@ import {
   faGear,
   faHouse,
   faList,
-  faTabletScreenButton
+  faTabletScreenButton,
+  faUserClock
 } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
 
@@ -15,7 +16,8 @@ const { t } = useI18n()
 const route = useRoute()
 
 const items = computed(() => [
-  { to: '/admin', label: t('nav.present'), icon: faHouse },
+  { to: '/admin', label: t('nav.dashboard'), icon: faHouse },
+  { to: '/admin/present', label: t('nav.present'), icon: faUserClock },
   { to: '/admin/register', label: t('nav.register'), icon: faClipboardList },
   { to: '/admin/events', label: t('nav.events'), icon: faCalendarDay },
   { to: '/admin/notice', label: t('nav.notice'), icon: faFileShield },

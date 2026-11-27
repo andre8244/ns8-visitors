@@ -82,3 +82,17 @@ export type AuditEntry = {
   deviceName: string | null
   details: Record<string, unknown> | null
 }
+
+// The counters of the dashboard
+export type DashboardStats = {
+  // Visitors in the office now
+  present: number
+  // Visits checked in today, and in the last 30 days, today included
+  visitsToday: number
+  visitsLast30Days: number
+  // Events in progress today, and starting after today
+  eventsToday: number
+  upcomingEvents: number
+  // Tablets paired and not revoked
+  pairedTablets: number
+}

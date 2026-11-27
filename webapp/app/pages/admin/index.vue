@@ -1,55 +1,41 @@
 <script setup lang="ts">
-import { NeEmptyState, NeInlineNotification } from '@nethesis/vue-components'
-import { faUserClock } from '@fortawesome/free-solid-svg-icons'
+import { NeInlineNotification } from '@nethesis/vue-components'
+import { faCalendarDay, faClipboardList, faTabletScreenButton, faUserClock } from '@fortawesome/free-solid-svg-icons'
 import { useIntervalFn } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import type { Visit } from '~~/shared/types/admin'
 
 const REFRESH_MS = 30_000
 
 const { t } = useI18n()
-const { visits, loading, error, reload } = useVisits(() => ({ present: 'true', page: 1, pageSize: 100 }))
-const { actionError, checkOut, personDeleted } = useVisitActions(reload)
+const { stats, loading, error, reload } = useDashboardStats()
 
 // Visitors arrive at the tablet while the page is open
 useIntervalFn(reload, REFRESH_MS)
 
-const detailsVisit = shallowRef<Visit | null>(null)
-const deleteVisit = shallowRef<Visit | null>(null)
-
-function onDeleted(name: string) {
-  deleteVisit.value = null
-  personDeleted(name)
-}
+const cards = computed(() => [
+  { title: t('dashboard.present'), counter: stats.value?.present, icon: faUserClock, to: '/admin/present' },
+  { title: t('dashboard.visits_today'), counter: stats.value?.visitsToday, icon: faClipboardList, to: '/admin/register' },
+  { title: t('dashboard.visits_last_30_days'), counter: stats.value?.visitsLast30Days, icon: faClipboardList, to: '/admin/register' },
+  { title: t('dashboard.events_today'), counter: stats.value?.eventsToday, icon: faCalendarDay, to: '/admin/events' },
+  { title: t('dashboard.upcoming_events'), counter: stats.value?.upcomingEvents, icon: faCalendarDay, to: '/admin/events' },
+  { title: t('dashboard.paired_tablets'), counter: stats.value?.pairedTablets, icon: faTabletScreenButton, to: '/admin/devices' }
+])
 </script>
 
 <template>
   <div>
-    <PageHeader :title="t('present.title')" :description="t('present.description')" />
-    <NeInlineNotification
-      v-if="error || actionError"
-      kind="error"
-      :title="error ? t('present.cannot_load') : t('visits.cannot_check_out')"
-      :description="error || actionError"
-      class="mb-6"
-    />
-    <NeEmptyState
-      v-if="!loading && !error && !visits.length"
-      :icon="faUserClock"
-      :title="t('present.empty_title')"
-      :description="t('present.empty_description')"
-      class="bg-elevation-0"
-    />
-    <VisitsTable
-      v-else-if="!error"
-      :visits="visits"
-      :loading="loading"
-      mode="present"
-      @details="detailsVisit = $event"
-      @check-out="checkOut"
-      @delete-person="deleteVisit = $event"
-    />
-    <VisitDetailsDrawer :visit="detailsVisit" @close="detailsVisit = null" />
-    <DeletePersonModal :visit="deleteVisit" @close="deleteVisit = null" @deleted="onDeleted" />
+    <PageHeader :title="t('dashboard.title')" />
+    <NeInlineNotification v-if="error" kind="error" :title="t('dashboard.cannot_load')" :description="error" class="mb-6" />
+    <div v-if="!error || stats" class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <CounterCard
+        v-for="card in cards"
+        :key="card.title"
+        :title="card.title"
+        :counter="card.counter ?? null"
+        :icon="card.icon"
+        :to="card.to"
+        :loading="loading"
+      />
+    </div>
   </div>
 </template>
