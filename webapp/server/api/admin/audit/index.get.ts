@@ -15,7 +15,7 @@ const querySchema = z.object({
   action: listField(z.string().regex(/^[a-z_.]+$/)),
   via: listField(z.enum(['ldap', 'kiosk', 'system'])),
   page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(100).default(25)
+  pageSize: z.coerce.number().int().min(1).max(100).default(10)
 })
 
 // The audit log, newest first. Viewing it is not recorded, as the other lists

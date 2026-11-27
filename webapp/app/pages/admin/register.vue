@@ -14,7 +14,7 @@ const filters = ref<RegisterFilterValues>({ ...emptyFilters })
 // Wait for the user to stop typing before searching
 const debouncedFilters = refDebounced(filters, 300)
 const page = shallowRef(1)
-const pageSize = shallowRef(25)
+const { pageSize, setPageSize } = useTablePageSize('register')
 
 const { visits, total, loading, error, reload } = useVisits(() => ({
   ...debouncedFilters.value,
@@ -90,14 +90,14 @@ function onDeleted(name: string) {
           :current-page="page"
           :total-rows="total"
           :page-size="pageSize"
-          :page-sizes="[10, 25, 50, 100]"
+          :page-sizes="PAGE_SIZE_OPTIONS"
           :previous-label="t('paginator.previous')"
           :next-label="t('paginator.next')"
           :nav-pagination-label="t('paginator.label')"
           :range-of-total-label="t('paginator.of')"
           :page-size-label="t('paginator.show')"
           @select-page="page = $event"
-          @select-page-size="(size: number) => { pageSize = size; page = 1 }"
+          @select-page-size="(size: number) => { setPageSize(size); page = 1 }"
         />
       </template>
     </VisitsTable>

@@ -9,7 +9,7 @@ const { t } = useI18n()
 const emptyFilters: AuditFilterValues = { actor: [], action: [], via: [], from: '', to: '' }
 const filters = ref<AuditFilterValues>({ ...emptyFilters })
 const page = shallowRef(1)
-const pageSize = shallowRef(25)
+const { pageSize, setPageSize } = useTablePageSize('auditLog')
 
 const { entries, actors, total, loading, error } = useAuditLog(() => ({
   ...filters.value,
@@ -52,14 +52,14 @@ function resetFilters() {
           :current-page="page"
           :total-rows="total"
           :page-size="pageSize"
-          :page-sizes="[10, 25, 50, 100]"
+          :page-sizes="PAGE_SIZE_OPTIONS"
           :previous-label="t('paginator.previous')"
           :next-label="t('paginator.next')"
           :nav-pagination-label="t('paginator.label')"
           :range-of-total-label="t('paginator.of')"
           :page-size-label="t('paginator.show')"
           @select-page="page = $event"
-          @select-page-size="(size: number) => { pageSize = size; page = 1 }"
+          @select-page-size="(size: number) => { setPageSize(size); page = 1 }"
         />
       </template>
     </AuditTable>

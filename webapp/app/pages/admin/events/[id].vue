@@ -39,7 +39,7 @@ const guests = computed(() => details.value?.guests ?? [])
 // Search and pages in the browser: an event has at most a few thousand guests
 const filter = shallowRef('')
 const page = shallowRef(1)
-const pageSize = shallowRef(25)
+const { pageSize, setPageSize } = useTablePageSize('eventGuests')
 const filteredGuests = computed(() => {
   const text = normalizeName(filter.value)
   if (!text) return guests.value
@@ -144,14 +144,14 @@ function onRemoved() {
               :current-page="page"
               :total-rows="filteredGuests.length"
               :page-size="pageSize"
-              :page-sizes="[10, 25, 50, 100]"
+              :page-sizes="PAGE_SIZE_OPTIONS"
               :previous-label="t('paginator.previous')"
               :next-label="t('paginator.next')"
               :nav-pagination-label="t('paginator.label')"
               :range-of-total-label="t('paginator.of')"
               :page-size-label="t('paginator.show')"
               @select-page="page = $event"
-              @select-page-size="(size: number) => { pageSize = size; page = 1 }"
+              @select-page-size="(size: number) => { setPageSize(size); page = 1 }"
             />
           </template>
         </GuestsTable>
