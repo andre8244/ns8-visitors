@@ -54,6 +54,17 @@ const dropdownTexts = computed(() => ({
 
 <template>
   <div class="flex flex-wrap items-end gap-4">
+    <!-- in the order of the columns of the table -->
+    <NeDateRangeFilter
+      :model-value="dateRange"
+      :label="t('audit.date')"
+      :max="today"
+      :presets="presets"
+      :locale="locale"
+      :clear-filter-label="t('audit.clear_selection')"
+      v-bind="calendarLabels"
+      @update:model-value="updateRange"
+    />
     <NeDropdownFilterV2
       v-bind="dropdownTexts"
       :label="t('audit.user')"
@@ -76,16 +87,6 @@ const dropdownTexts = computed(() => ({
       :model-value="selected(actionOptions, filters.action)"
       show-options-filter
       @update:model-value="update('action', $event)"
-    />
-    <NeDateRangeFilter
-      :model-value="dateRange"
-      :label="t('audit.date')"
-      :max="today"
-      :presets="presets"
-      :locale="locale"
-      :clear-filter-label="t('audit.clear_selection')"
-      v-bind="calendarLabels"
-      @update:model-value="updateRange"
     />
     <NeButton kind="tertiary" @click="emit('reset')">{{ t('common.reset_filters') }}</NeButton>
   </div>

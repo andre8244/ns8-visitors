@@ -95,6 +95,7 @@ async function save() {
         <NeDatePicker
           :model-value="form.autoCheckoutTime"
           type="time"
+          :minute-step="15"
           :clearable="false"
           :label="t('settings.auto_check_out')"
           :helper-text="t('settings.auto_check_out_helper')"

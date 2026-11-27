@@ -84,7 +84,7 @@ function menuItems(visit: Visit): NeDropdownItem[] {
           <NeBadgeV2 v-if="!visit.checkOutAt" kind="green">{{ t('visits.in_office') }}</NeBadgeV2>
           <span v-else class="flex flex-wrap items-center gap-2">
             {{ formatDateTime(visit.checkOutAt) }}
-            <NeBadgeV2 v-if="visit.checkOutBy === 'auto'" kind="gray">{{ t('visits.auto_check_out') }}</NeBadgeV2>
+            <NeBadgeV2 v-if="visit.checkOutBy === 'auto'" kind="gray" size="xs">{{ t('visits.auto_check_out') }}</NeBadgeV2>
           </span>
         </NeTableCell>
         <NeTableCell :data-label="t('common.actions')">
