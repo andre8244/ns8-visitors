@@ -3,7 +3,6 @@ import {
   NeButton,
   NeCard,
   NeEmptyState,
-  NeHeading,
   NeInlineNotification,
   NeSkeleton,
   NeTable,
@@ -84,7 +83,9 @@ function onPublished() {
         </p>
         <NoticeText :markdown="current.bodyMd" :heading-level="4" />
       </NeCard>
-      <NeHeading tag="h2" class="mb-4">{{ t('notice.history') }}</NeHeading>
+      <!-- smaller than the page title: the H4 text style, as the sections of
+           My Nethesis, but an h2 -->
+      <h2 class="text-primary-neutral mb-4 text-xl font-medium">{{ t('notice.history') }}</h2>
       <NeTable :aria-label="t('notice.history')" card-breakpoint="md">
         <NeTableHead>
           <NeTableHeadCell>{{ t('notice.version') }}</NeTableHeadCell>
