@@ -353,6 +353,9 @@
   "settings": {
     "title": "Settings",
     "description": "Data retention, automatic check-out and tablet.",
+    "data_retention": "Data retention",
+    "automatic_check_out": "Automatic check-out",
+    "tablet": "Tablet",
     "retention": "Retention period (months)",
     "retention_helper": "Visits, signatures and events older than this are deleted automatically.",
     "enter_retention": "Enter a number of months between 1 and 120",

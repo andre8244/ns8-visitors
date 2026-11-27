@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeButton, NeCard, NeDatePicker, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput, NeToggle } from '@nethesis/vue-components'
+import { NeButton, NeDatePicker, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput, NeToggle } from '@nethesis/vue-components'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
 import { useDatePickerLabels } from '~/composables/useDatePickerLabels'
@@ -76,32 +76,38 @@ async function save() {
   <div>
     <PageHeader :title="t('settings.title')" :description="t('settings.description')" />
     <NeInlineNotification v-if="loadError" kind="error" :title="t('settings.cannot_load')" :description="loadError" />
-    <NeSkeleton v-else-if="loading" :lines="6" class="max-w-xl" />
-    <NeCard v-else class="max-w-xl">
-      <form novalidate @submit.prevent="save">
+    <NeSkeleton v-else-if="loading" :lines="6" class="max-w-3xl" />
+    <form v-else novalidate class="max-w-3xl space-y-8" @submit.prevent="save">
+      <FormLayout :title="t('settings.data_retention')">
+        <NeTextInput
+          v-model="form.retentionMonths"
+          type="number"
+          min="1"
+          max="120"
+          :label="t('settings.retention')"
+          :helper-text="t('settings.retention_helper')"
+          :invalid-message="errors.retentionMonths"
+          :disabled="saving"
+        />
+      </FormLayout>
+      <hr class="border-layout-divider" />
+      <FormLayout :title="t('settings.automatic_check_out')">
+        <NeDatePicker
+          :model-value="form.autoCheckoutTime"
+          type="time"
+          :clearable="false"
+          :label="t('settings.auto_check_out')"
+          :helper-text="t('settings.auto_check_out_helper')"
+          :locale="locale"
+          v-bind="datePickerLabels"
+          :invalid-message="errors.autoCheckoutTime"
+          :disabled="saving"
+          @update:model-value="form.autoCheckoutTime = ($event as string | null) ?? ''"
+        />
+      </FormLayout>
+      <hr class="border-layout-divider" />
+      <FormLayout :title="t('settings.tablet')">
         <div class="space-y-6">
-          <NeTextInput
-            v-model="form.retentionMonths"
-            type="number"
-            min="1"
-            max="120"
-            :label="t('settings.retention')"
-            :helper-text="t('settings.retention_helper')"
-            :invalid-message="errors.retentionMonths"
-            :disabled="saving"
-          />
-          <NeDatePicker
-            :model-value="form.autoCheckoutTime"
-            type="time"
-            :clearable="false"
-            :label="t('settings.auto_check_out')"
-            :helper-text="t('settings.auto_check_out_helper')"
-            :locale="locale"
-            v-bind="datePickerLabels"
-            :invalid-message="errors.autoCheckoutTime"
-            :disabled="saving"
-            @update:model-value="form.autoCheckoutTime = ($event as string | null) ?? ''"
-          />
           <NeRadioSelection
             v-if="KIOSK_THEME_SELECTABLE"
             v-model="form.kioskTheme"
@@ -116,12 +122,14 @@ async function save() {
             <NeToggle v-model="form.kioskMascot" :label="t('settings.kiosk_mascot')" :disabled="saving" />
             <p class="text-tertiary-neutral mt-2 text-sm">{{ t('settings.kiosk_mascot_helper') }}</p>
           </div>
-          <NeInlineNotification v-if="saveError" kind="error" :title="t('settings.cannot_save')" :description="saveError" />
         </div>
-        <div class="mt-8 flex justify-end">
-          <NeButton type="submit" kind="primary" size="lg" :disabled="saving" :loading="saving">{{ t('common.save') }}</NeButton>
-        </div>
-      </form>
-    </NeCard>
+      </FormLayout>
+      <hr class="border-layout-divider" />
+      <!-- the Save button saves the whole page, aligned with the fields -->
+      <FormLayout>
+        <NeInlineNotification v-if="saveError" kind="error" :title="t('settings.cannot_save')" :description="saveError" class="mb-6" />
+        <NeButton type="submit" kind="primary" size="lg" :disabled="saving" :loading="saving">{{ t('common.save') }}</NeButton>
+      </FormLayout>
+    </form>
   </div>
 </template>
