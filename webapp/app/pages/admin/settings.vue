@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { NeButton, NeCard, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput, NeToggle } from '@nethesis/vue-components'
+import { NeButton, NeCard, NeDatePicker, NeInlineNotification, NeRadioSelection, NeSkeleton, NeTextInput, NeToggle } from '@nethesis/vue-components'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
+import { useDatePickerLabels } from '~/composables/useDatePickerLabels'
 import type { Settings } from '~~/shared/types/admin'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { datePickerLabels } = useDatePickerLabels()
 const { api, errorText } = useApi()
 const { showSuccess } = useToasts()
 
@@ -88,13 +90,17 @@ async function save() {
             :invalid-message="errors.retentionMonths"
             :disabled="saving"
           />
-          <NeTextInput
-            v-model="form.autoCheckoutTime"
+          <NeDatePicker
+            :model-value="form.autoCheckoutTime"
             type="time"
+            :clearable="false"
             :label="t('settings.auto_check_out')"
             :helper-text="t('settings.auto_check_out_helper')"
+            :locale="locale"
+            v-bind="datePickerLabels"
             :invalid-message="errors.autoCheckoutTime"
             :disabled="saving"
+            @update:model-value="form.autoCheckoutTime = ($event as string | null) ?? ''"
           />
           <NeRadioSelection
             v-if="KIOSK_THEME_SELECTABLE"

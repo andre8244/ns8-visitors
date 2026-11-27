@@ -24,8 +24,8 @@ importers:
         specifier: ^1.7.23
         version: 1.7.23(vue@3.5.44(typescript@5.9.3))
       '@nethesis/vue-components':
-        specifier: ^3.16.0
-        version: 3.16.0(tailwindcss@4.3.3)(typescript@5.9.3)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15))
+        specifier: ^3.17.0
+        version: 3.17.0(tailwindcss@4.3.3)(typescript@5.9.3)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15))
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.44(typescript@5.9.3))
@@ -807,8 +807,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@nethesis/vue-components@3.16.0':
-    resolution: {integrity: sha512-PixiBJ/1AB0GiyOJedOr83CgKVZrPbAZemOXrcqkbqm0CX7Nxro/zZa5AK9Ygud6gQ5VVC8WK6Gzzlz67VGaog==}
+  '@nethesis/vue-components@3.17.0':
+    resolution: {integrity: sha512-aXhTsv4xFPK4WvO9K3mHvve5ByZH+kB4DB0LJENAvy7SjBJNtVzUnU8QbjWqMVroLhk2B5Vw3wYzHp6B/jXm7w==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -4570,7 +4570,7 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@nethesis/vue-components@3.16.0(tailwindcss@4.3.3)(typescript@5.9.3)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15))':
+  '@nethesis/vue-components@3.17.0(tailwindcss@4.3.3)(typescript@5.9.3)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15))':
     dependencies:
       '@date-fns/tz': 1.5.0
       '@fontsource/poppins': 5.3.0

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { NeButton, NeDropdownFilterV2, NeTextInput, type NeDropdownFilterV2Option } from '@nethesis/vue-components'
+import { NeButton, NeDateRangeFilter, NeDropdownFilterV2, type NeDropdownFilterV2Option } from '@nethesis/vue-components'
 import { useI18n } from 'vue-i18n'
+import { useDatePickerLabels, useDateRangePresets } from '~/composables/useDatePickerLabels'
 
 export type AuditFilterValues = { actor: string[]; action: string[]; via: string[]; from: string; to: string }
 
@@ -8,7 +9,17 @@ const props = defineProps<{ actors: string[] }>()
 const filters = defineModel<AuditFilterValues>({ required: true })
 const emit = defineEmits<{ reset: [] }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { calendarLabels } = useDatePickerLabels()
+const presets = useDateRangePresets()
+const today = todayDate()
+
+// The filter holds the range, the filters its first and last day
+const dateRange = computed<[string, string] | null>(() => (filters.value.from && filters.value.to ? [filters.value.from, filters.value.to] : null))
+
+function updateRange(range: [string, string] | null) {
+  filters.value = { ...filters.value, from: range?.[0] ?? '', to: range?.[1] ?? '' }
+}
 
 const actorOptions = computed<NeDropdownFilterV2Option[]>(() =>
   props.actors.map((actor) => ({ id: actor, label: auditActorLabel(actor, t) }))
@@ -66,19 +77,15 @@ const dropdownTexts = computed(() => ({
       show-options-filter
       @update:model-value="update('action', $event)"
     />
-    <NeTextInput
-      :model-value="filters.from"
-      type="date"
-      :label="t('audit.from')"
-      class="w-44"
-      @update:model-value="update('from', $event)"
-    />
-    <NeTextInput
-      :model-value="filters.to"
-      type="date"
-      :label="t('audit.to')"
-      class="w-44"
-      @update:model-value="update('to', $event)"
+    <NeDateRangeFilter
+      :model-value="dateRange"
+      :label="t('audit.date')"
+      :max="today"
+      :presets="presets"
+      :locale="locale"
+      :clear-filter-label="t('audit.clear_selection')"
+      v-bind="calendarLabels"
+      @update:model-value="updateRange"
     />
     <NeButton kind="tertiary" @click="emit('reset')">{{ t('common.reset_filters') }}</NeButton>
   </div>

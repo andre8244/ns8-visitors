@@ -3,3 +3,5 @@ allowBuilds:
   # node-gyp step only needs python and compilers, missing in the image
   better-sqlite3: false
   esbuild: true
+minimumReleaseAgeExclude:
+  - '@nethesis/vue-components@3.17.0'

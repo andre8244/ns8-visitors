@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { NeButton, NeInlineNotification, NeSideDrawer, NeTextInput, focusElement } from '@nethesis/vue-components'
+import { NeButton, NeDatePicker, NeInlineNotification, NeSideDrawer, NeTextInput, focusElement, type NeDatePickerValue } from '@nethesis/vue-components'
 import { useI18n } from 'vue-i18n'
+import { useDatePickerLabels } from '~/composables/useDatePickerLabels'
 import type { EventSummary } from '~~/shared/types/admin'
 
 // Create an event, or edit the one given
 const props = defineProps<{ isShown: boolean; event: EventSummary | null }>()
 const emit = defineEmits<{ close: []; saved: [name: string, created: boolean] }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { datePickerLabels } = useDatePickerLabels()
 const { api, errorText } = useApi()
 
 const name = shallowRef('')
@@ -27,6 +29,15 @@ function onShow() {
   errors.value = { name: '', startDate: '', endDate: '' }
   saveError.value = ''
   focusElement(nameRef)
+}
+
+// An event that now starts after its end lasts that day: the end cannot
+// come before the start
+function updateStartDate(value: NeDatePickerValue) {
+  startDate.value = (value as string | null) ?? ''
+  if (startDate.value && endDate.value < startDate.value) {
+    endDate.value = startDate.value
+  }
 }
 
 function validate() {
@@ -76,20 +87,27 @@ async function save() {
           :invalid-message="errors.name"
           :disabled="saving"
         />
-        <NeTextInput
-          v-model="startDate"
-          type="date"
+        <NeDatePicker
+          :model-value="startDate"
           :label="t('events.start_date')"
+          :clearable="false"
+          :locale="locale"
+          v-bind="datePickerLabels"
           :invalid-message="errors.startDate"
           :disabled="saving"
+          @update:model-value="updateStartDate"
         />
-        <NeTextInput
-          v-model="endDate"
-          type="date"
+        <NeDatePicker
+          :model-value="endDate"
           :label="t('events.end_date')"
+          :clearable="false"
           :helper-text="t('events.end_date_helper')"
+          :min="startDate"
+          :locale="locale"
+          v-bind="datePickerLabels"
           :invalid-message="errors.endDate"
           :disabled="saving"
+          @update:model-value="endDate = ($event as string | null) ?? ''"
         />
         <NeInlineNotification
           v-if="saveError"
