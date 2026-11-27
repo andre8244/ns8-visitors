@@ -52,6 +52,12 @@ html {
 html.dark {
   color-scheme: dark;
 }
+/* Compact view of the admin pages, as in My Nethesis: the spacing utilities
+   all derive from --spacing, so this tightens the whole interface while the
+   font sizes stay the same */
+html.compact {
+  --spacing: 0.2rem;
+}
 html.kiosk {
   background-color: var(--color-primary-600);
 }

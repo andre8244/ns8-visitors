@@ -68,5 +68,8 @@ function menuItems(device: Device): NeDropdownItem[] {
         </NeTableCell>
       </NeTableRow>
     </NeTableBody>
+    <template #paginator>
+      <slot name="paginator" />
+    </template>
   </NeTable>
 </template>

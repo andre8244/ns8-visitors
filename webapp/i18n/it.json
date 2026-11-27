@@ -66,7 +66,9 @@
     "open_sidebar": "Apri barra laterale",
     "close_sidebar": "Chiudi barra laterale",
     "account": "Account",
-    "open_account_menu": "Apri menu account"
+    "open_account_menu": "Apri menu account",
+    "switch_to_compact_view": "Passa alla vista compatta",
+    "switch_to_standard_view": "Passa alla vista standard"
   },
   "paginator": {
     "label": "Paginazione",
@@ -363,7 +365,6 @@
   },
   "settings": {
     "title": "Impostazioni",
-    "description": "Conservazione dei dati, uscita automatica e tablet.",
     "data_retention": "Conservazione dei dati",
     "automatic_check_out": "Uscita automatica",
     "tablet": "Tablet",

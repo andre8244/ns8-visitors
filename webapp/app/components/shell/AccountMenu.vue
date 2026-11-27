@@ -6,13 +6,16 @@ import {
   faChevronDown,
   faCircleUser,
   faMoon,
-  faSun
+  faSun,
+  faTableCells,
+  faTableCellsLarge
 } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { user, clear } = useUserSession()
 const { isDark, toggleTheme } = useAdminTheme()
+const { isCompact, toggleDensity } = useAdminDensity()
 
 async function signOut() {
   await clear()
@@ -20,6 +23,12 @@ async function signOut() {
 }
 
 const items = computed<NeDropdownItem[]>(() => [
+  {
+    id: 'density',
+    label: isCompact.value ? t('shell.switch_to_standard_view') : t('shell.switch_to_compact_view'),
+    icon: isCompact.value ? faTableCellsLarge : faTableCells,
+    action: () => toggleDensity()
+  },
   {
     id: 'theme',
     label: isDark.value ? t('theme.switch_to_light') : t('theme.switch_to_dark'),

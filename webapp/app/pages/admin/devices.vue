@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NeButton, NeEmptyState, NeInlineNotification } from '@nethesis/vue-components'
+import { NeButton, NeEmptyState, NeInlineNotification, NePaginator } from '@nethesis/vue-components'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faCirclePlus, faTabletScreenButton } from '@fortawesome/free-solid-svg-icons'
 import { useI18n } from 'vue-i18n'
@@ -25,6 +25,10 @@ async function reload() {
   }
 }
 reload()
+
+const page = shallowRef(1)
+const { pageSize, setPageSize } = useTablePageSize('devices')
+const pageDevices = computed(() => devices.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value))
 
 const createShown = shallowRef(false)
 const pairing = shallowRef<PairingCode | null>(null)
@@ -92,7 +96,23 @@ function onRevoked() {
         {{ t('devices.add_tablet') }}
       </NeButton>
     </NeEmptyState>
-    <DevicesTable v-else-if="!error" :devices="devices" :loading="loading" @new-code="newCode" @revoke="revokeDevice = $event" />
+    <DevicesTable v-else-if="!error" :devices="pageDevices" :loading="loading" @new-code="newCode" @revoke="revokeDevice = $event">
+      <template #paginator>
+        <NePaginator
+          :current-page="page"
+          :total-rows="devices.length"
+          :page-size="pageSize"
+          :page-sizes="PAGE_SIZE_OPTIONS"
+          :previous-label="t('paginator.previous')"
+          :next-label="t('paginator.next')"
+          :nav-pagination-label="t('paginator.label')"
+          :range-of-total-label="t('paginator.of')"
+          :page-size-label="t('paginator.show')"
+          @select-page="page = $event"
+          @select-page-size="(size: number) => { setPageSize(size); page = 1 }"
+        />
+      </template>
+    </DevicesTable>
     <CreateDeviceDrawer :is-shown="createShown" @close="createShown = false" @created="onCreated" />
     <PairingCodeModal :pairing="pairing" @close="pairing = null" />
     <ConfirmDeleteModal

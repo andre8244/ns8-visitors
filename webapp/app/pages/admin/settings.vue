@@ -74,7 +74,7 @@ async function save() {
 
 <template>
   <div>
-    <PageHeader :title="t('settings.title')" :description="t('settings.description')" />
+    <PageHeader :title="t('settings.title')" />
     <NeInlineNotification v-if="loadError" kind="error" :title="t('settings.cannot_load')" :description="loadError" />
     <NeSkeleton v-else-if="loading" :lines="6" class="max-w-3xl" />
     <form v-else novalidate class="max-w-3xl space-y-8" @submit.prevent="save">

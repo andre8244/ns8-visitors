@@ -6,6 +6,8 @@ const route = useRoute()
 const { loggedIn } = useUserSession()
 // Applies the theme of this browser
 useAdminTheme()
+// Applies the view, standard or compact, of the signed-in admin
+useAdminDensity()
 
 useHead({ title: () => t('app.title'), htmlAttrs: { lang: locale } })
 

@@ -66,7 +66,9 @@
     "open_sidebar": "Open sidebar",
     "close_sidebar": "Close sidebar",
     "account": "Account",
-    "open_account_menu": "Open account menu"
+    "open_account_menu": "Open account menu",
+    "switch_to_compact_view": "Switch to compact view",
+    "switch_to_standard_view": "Switch to standard view"
   },
   "paginator": {
     "label": "Pagination",
@@ -363,7 +365,6 @@
   },
   "settings": {
     "title": "Settings",
-    "description": "Data retention, automatic check-out and tablet.",
     "data_retention": "Data retention",
     "automatic_check_out": "Automatic check-out",
     "tablet": "Tablet",
