@@ -87,7 +87,7 @@ function onRemoved() {
       :icon="faMagnifyingGlass"
       :title="t('events.event_not_found')"
       :description="t('events.event_not_found_description')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     />
     <NeInlineNotification v-else-if="error" kind="error" :title="t('events.cannot_load_event')" :description="error" />
     <template v-else-if="details">
@@ -112,7 +112,7 @@ function onRemoved() {
           </div>
         </template>
       </PageHeader>
-      <NeEmptyState v-if="!guests.length" :icon="faUsers" :title="t('guests.no_guests')" :description="t('guests.no_guests_description')" class="bg-elevation-0">
+      <NeEmptyState v-if="!guests.length" :icon="faUsers" :title="t('guests.no_guests')" :description="t('guests.no_guests_description')" class="bg-white dark:bg-gray-950">
         <NeButton kind="primary" size="lg" @click="addShown = true">
           <template #prefix>
             <FontAwesomeIcon :icon="faCirclePlus" aria-hidden="true" />
@@ -134,7 +134,7 @@ function onRemoved() {
           :icon="faMagnifyingGlass"
           :title="t('guests.no_guests_found')"
           :description="t('common.try_different_words')"
-          class="bg-elevation-0"
+          class="bg-white dark:bg-gray-950"
         >
           <NeButton kind="tertiary" size="lg" @click="filter = ''">{{ t('common.clear_filter') }}</NeButton>
         </NeEmptyState>

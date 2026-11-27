@@ -67,7 +67,7 @@ function onPublished() {
       :icon="faFileShield"
       :title="t('notice.no_notice')"
       :description="t('notice.no_notice_description')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     >
       <NeButton kind="primary" size="lg" @click="publishShown = true">
         <template #prefix>

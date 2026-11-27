@@ -101,7 +101,7 @@ function onDeleted() {
       :icon="faCalendarDays"
       :title="period === 'upcoming' ? t('events.no_upcoming_events') : t('events.no_past_events')"
       :description="period === 'upcoming' ? t('events.no_upcoming_events_description') : undefined"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     />
     <EventsTable v-else-if="!error" :events="events" :loading="loading" @edit="openEdit" @delete="deleteEvent = $event" />
     <EventDrawer :is-shown="drawerShown" :event="editEvent" @close="drawerShown = false" @saved="onSaved" />

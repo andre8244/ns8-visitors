@@ -66,7 +66,7 @@ function onDeleted(name: string) {
       :icon="faMagnifyingGlass"
       :title="t('register.no_visits_found')"
       :description="t('common.try_changing_filters')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     >
       <NeButton kind="tertiary" size="lg" @click="resetFilters">{{ t('common.reset_filters') }}</NeButton>
     </NeEmptyState>
@@ -74,7 +74,7 @@ function onDeleted(name: string) {
       v-else-if="!loading && !error && !visits.length"
       :icon="faClipboardList"
       :title="t('register.no_visits_yet')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     />
     <VisitsTable
       v-else-if="!error"

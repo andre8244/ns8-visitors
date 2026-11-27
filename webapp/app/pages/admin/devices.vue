@@ -83,7 +83,7 @@ function onRevoked() {
       :icon="faTabletScreenButton"
       :title="t('devices.no_tablets')"
       :description="t('devices.no_tablets_description')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     >
       <NeButton kind="primary" size="lg" @click="createShown = true">
         <template #prefix>

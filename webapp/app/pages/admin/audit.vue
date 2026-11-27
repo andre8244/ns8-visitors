@@ -36,7 +36,7 @@ function resetFilters() {
       :icon="faMagnifyingGlass"
       :title="t('audit.no_entries_found')"
       :description="t('common.try_changing_filters')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     >
       <NeButton kind="tertiary" size="lg" @click="resetFilters">{{ t('common.reset_filters') }}</NeButton>
     </NeEmptyState>
@@ -44,7 +44,7 @@ function resetFilters() {
       v-else-if="!loading && !error && !entries.length"
       :icon="faList"
       :title="t('audit.no_entries_yet')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     />
     <AuditTable v-else-if="!error" :entries="entries" :loading="loading">
       <template #paginator>

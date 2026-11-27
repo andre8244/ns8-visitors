@@ -38,7 +38,7 @@ function onDeleted(name: string) {
       :icon="faUserClock"
       :title="t('present.empty_title')"
       :description="t('present.empty_description')"
-      class="bg-elevation-0"
+      class="bg-white dark:bg-gray-950"
     />
     <VisitsTable
       v-else-if="!error"
