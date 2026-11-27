@@ -139,8 +139,18 @@ describe('notice', () => {
   it('lists the versions, the current one first', async () => {
     await admin.post('/api/admin/notice', { bodyMd: 'Versione 2' })
     const versions = (await admin.get('/api/admin/notice')).data
-    expect(versions.map((v: { bodyMd: string }) => v.bodyMd)).toEqual(['Versione 2', 'Informativa'])
+    expect(versions.map((v: { bodyMd: string }) => v.bodyMd).slice(0, 2)).toEqual(['Versione 2', 'Informativa'])
     expect(versions[0].publishedBy).toBe('test.admin')
+  })
+
+  it('publishes the default notice on the first start', async () => {
+    const versions = (await admin.get('/api/admin/notice')).data
+    const first = versions.at(-1)
+    expect(versions).toHaveLength(3)
+    expect(first.publishedBy).toBe('system')
+    expect(first.bodyMd).toContain('Nethesis Srl Unipersonale')
+    const audit = (await admin.get('/api/admin/audit?action=notice.publish&actor=system')).data
+    expect(audit.entries).toHaveLength(1)
   })
 
   it('rejects an empty notice', async () => {

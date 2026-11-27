@@ -80,7 +80,7 @@ function onPublished() {
     <template v-else>
       <NeCard :title="t('notice.current_version', { number: current.id })" class="mb-10">
         <p class="text-tertiary-neutral mb-6 text-sm">
-          {{ t('notice.published_by', { date: formatDateTime(current.publishedAt), name: current.publishedBy }) }}
+          {{ t('notice.published_by', { date: formatDateTime(current.publishedAt), name: auditActorLabel(current.publishedBy, t) }) }}
         </p>
         <NoticeText :markdown="current.bodyMd" :heading-level="4" />
       </NeCard>
@@ -98,7 +98,7 @@ function onPublished() {
           <NeTableRow v-for="version in versions" :key="version.id">
             <NeTableCell :data-label="t('notice.version')">{{ version.id }}</NeTableCell>
             <NeTableCell :data-label="t('notice.published_at')">{{ formatDateTime(version.publishedAt) }}</NeTableCell>
-            <NeTableCell :data-label="t('notice.published_by_column')">{{ version.publishedBy }}</NeTableCell>
+            <NeTableCell :data-label="t('notice.published_by_column')">{{ auditActorLabel(version.publishedBy, t) }}</NeTableCell>
             <NeTableCell :data-label="t('common.actions')">
               <div class="-ml-2.5 flex md:ml-0 md:justify-end">
                 <NeButton

@@ -8,7 +8,9 @@ used on a tablet at the office entrance.
   search their name and sign. The tablet is paired by an admin and can only
   register check-ins and check-outs.
 - **admin**: members of an LDAP group manage events and guest lists, the
-  privacy notice versions, the paired tablets and the register.
+  privacy notice versions, the paired tablets and the register. On the
+  first start the application publishes a default notice, in Italian,
+  that the admins can replace with a new version.
 
 Data older than the retention period (12 months by default) is deleted
 automatically. Every admin action is recorded in an audit log, which the
@@ -185,7 +187,7 @@ corner, to try Italian and English.
 To try the pages with some data, fill the development database with
 `pnpm dev:seed`: visits of the last three months, some still in the
 office, a course in progress, past and upcoming events, tablets and two
-versions of the privacy notice. Names and companies are made up. The
+more versions of the privacy notice. Names and companies are made up. The
 script refuses a database that already has visits: to start again, stop
 `pnpm dev`, delete `webapp/.data/visitors.sqlite` and run it again. Pair
 your tablet as usual: the seeded tablets are only listed.

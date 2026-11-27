@@ -28,7 +28,7 @@ watch(
   >
     <template v-if="version">
       <p class="text-tertiary-neutral mb-6 text-sm">
-        {{ t('notice.published_by', { date: formatDateTime(version.publishedAt), name: version.publishedBy }) }}
+        {{ t('notice.published_by', { date: formatDateTime(version.publishedAt), name: auditActorLabel(version.publishedBy, t) }) }}
       </p>
       <NoticeText :markdown="version.bodyMd" :heading-level="4" />
     </template>
