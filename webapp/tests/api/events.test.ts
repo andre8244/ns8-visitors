@@ -124,6 +124,24 @@ describe('tablet', () => {
     expect(visits[1]).toEqual({ signature: null, notice_version_id: null })
   })
 
+  it('asks for the signature on a later day to a guest absent on the first', async () => {
+    // The event started yesterday (previous test): Bruno comes for the first time today
+    const guest = await findGuest('bruno')
+    expect(guest.signed).toBe(false)
+    const unsigned = await kiosk.post(`/api/kiosk/events/${eventId}/check-in`, { guestId: guest.id })
+    expect(unsigned.status).toBe(400)
+    expect(unsigned.data.statusMessage).toBe('signature_required')
+
+    const response = await kiosk.post(`/api/kiosk/events/${eventId}/check-in`, { guestId: guest.id, signed: signed() })
+    expect(response.data).toEqual({ ok: true, signed: true })
+    const visit = server.db().prepare('SELECT signature, notice_version_id FROM visit WHERE event_guest_id = ?').get(guest.id) as {
+      signature: Buffer | null
+      notice_version_id: number | null
+    }
+    expect(visit.signature).not.toBeNull()
+    expect(visit.notice_version_id).toBe(noticeId)
+  })
+
   it('rejects a guest of another event', async () => {
     const other = (await admin.post('/api/admin/events', { name: 'Altro', startDate: day(), endDate: day() })).data
     await admin.post(`/api/admin/events/${other.id}/guests`, { guests: [{ firstName: 'Dario', lastName: 'Esposito', company: 'D' }] })
